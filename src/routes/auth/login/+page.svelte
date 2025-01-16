@@ -24,7 +24,7 @@
         <input
           type="password"
           id="password"
-          bind:value={password}z
+          bind:value={password}
           class="form-input w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
           placeholder="Enter your password"
           required
