@@ -1,5 +1,5 @@
-<script>
- import { Button } from "$lib/components/ui/button/index.ts";
+<script lang="ts">
+ import {Button} from "$lib/components/ui/button/index.js";
  import Navbar from "$lib/components/ui/navbar/navbar.svelte";
   let features = [
     { title: "Feature 1", description: "Description of feature 1" },

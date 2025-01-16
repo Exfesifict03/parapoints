@@ -1,5 +1,5 @@
-// src/routes/home/+page.svelte
-<script>
+
+<script lang="ts">
   let points = 250;
   let credits = 150;
   let transactionHistory = [
