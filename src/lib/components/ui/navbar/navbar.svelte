@@ -9,10 +9,10 @@
   });
 </script>
 
-<header class="bg-white shadow-md">
+<header class="bg-white shadow-lg">
   <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
     <!-- Logo -->
-    <a href="/landing" class="text-2xl font-bold text-blue-600 hover:text-blue-700">
+    <a href="/landing" class="text-2xl font-bold text-green-600 hover:text-green-700 transition duration-300">
       ECOFARE
     </a>
 
@@ -23,7 +23,7 @@
           <li>
             <a
               href="#features"
-              class="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200"
+              class="text-gray-700 hover:text-green-600 font-medium transition-colors duration-300"
             >
               Features
             </a>
@@ -31,7 +31,7 @@
           <li>
             <a
               href="#about"
-              class="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200"
+              class="text-gray-700 hover:text-green-600 font-medium transition-colors duration-300"
             >
               About
             </a>
@@ -39,7 +39,7 @@
           <li>
             <a
               href="#contact"
-              class="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200"
+              class="text-gray-700 hover:text-green-600 font-medium transition-colors duration-300"
             >
               Contact
             </a>

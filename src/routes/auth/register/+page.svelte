@@ -1,6 +1,6 @@
-
 <script lang="ts">
-        import Navbar from "$lib/components/ui/navbar/navbar.svelte";
+  import Navbar from "$lib/components/ui/navbar/navbar.svelte";
+  
   let fullName = "";
   let email = "";
   let password = "";
@@ -21,7 +21,7 @@
 
 <main class="min-h-screen bg-gray-50 flex items-center justify-center">
   <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-    <h2 class="text-2xl font-bold text-center text-blue-600 mb-6">Sign Up</h2>
+    <h2 class="text-2xl font-bold text-center text-green-600 mb-6">Sign Up</h2>
 
     <form on:submit|preventDefault={handleSignUp}>
       <!-- Full Name Input -->
@@ -31,7 +31,7 @@
           type="text"
           id="fullName"
           bind:value={fullName}
-          class="form-input w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          class="form-input w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none"
           placeholder="Enter your full name"
           required
         />
@@ -44,7 +44,7 @@
           type="email"
           id="email"
           bind:value={email}
-          class="form-input w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          class="form-input w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none"
           placeholder="Enter your email"
           required
         />
@@ -57,7 +57,7 @@
           type="password"
           id="password"
           bind:value={password}
-          class="form-input w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          class="form-input w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none"
           placeholder="Enter your password"
           required
         />
@@ -69,11 +69,11 @@
           <input
             type="checkbox"
             bind:checked={agreeToTerms}
-            class="form-checkbox text-blue-600 focus:ring-blue-500"
+            class="form-checkbox text-green-600 focus:ring-green-500"
             required
           />
           <span class="ml-2 text-gray-700">
-            I agree to the <a href="/terms" class="text-blue-600 hover:underline">Terms and Conditions</a>
+            I agree to the <a href="/terms" class="text-green-600 hover:underline">Terms and Conditions</a>
           </span>
         </label>
       </div>
@@ -81,14 +81,14 @@
       <!-- Submit Button -->
       <button
         type="submit"
-        class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        class="w-full bg-green-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-300"
       >
         Sign Up
       </button>
     </form>
 
     <p class="text-center text-gray-600 text-sm mt-4">
-      Already have an account? <a href="/auth/login" class="text-blue-600 hover:underline">Login</a>
+      Already have an account? <a href="/auth/login" class="text-green-600 hover:underline">Login</a>
     </p>
   </div>
 </main>

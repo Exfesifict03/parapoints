@@ -1,6 +1,7 @@
 <script lang="ts">
- import {Button} from "$lib/components/ui/button/index.js";
- import Navbar from "$lib/components/ui/navbar/navbar.svelte";
+  import Footer from "$lib/components/ui/footer/footer.svelte";
+  import { Button } from "$lib/components/ui/button/index.js";
+  import Navbar from "$lib/components/ui/navbar/navbar.svelte";
   let features = [
     { title: "Feature 1", description: "Description of feature 1" },
     { title: "Feature 2", description: "Description of feature 2" },
@@ -9,45 +10,64 @@
 </script>
 
 <main class="min-h-screen bg-gray-50 text-gray-800">
-    <Navbar/>
-  <section class="bg-blue-600 text-white py-20">
+  <Navbar />
+
+  <!-- Hero Section -->
+  <section class="bg-teal-600 text-white py-40">
     <div class="container mx-auto px-6 text-center">
       <a href="/landing">
-        <h2 class="text-4xl font-extrabold mb-4" >Welcome to PARAPOINTS test</h2>
-        </a>
-      <p class="text-lg mb-6">Convert your waste into Fare with our Environmental Solution.</p>
-      <Button href="/auth/login">Get Started</Button>
+        <h2 class="text-5xl font-extrabold mb-6 leading-tight">
+          Transform Waste into Fare with EcoFare
+        </h2>
+      </a>
+      <p class="text-lg mb-8">
+        A sustainable solution for a greener planet — Join us in making a difference.
+      </p>
+      <Button
+        href="/auth/login"
+        class="bg-yellow-400 hover:bg-yellow-500 text-teal-900 py-2 px-6 rounded-full text-lg font-semibold transition duration-300 ease-in-out"
+      >
+        Get Started
+      </Button>
     </div>
   </section>
-  <section id="features" class="py-16">
+
+  <!-- Features Section -->
+  <section id="features" class="py-24 bg-gray-50">
     <div class="container mx-auto px-6">
-      <h3 class="text-3xl font-bold text-center mb-8">Our Features</h3>
+      <h3 class="text-4xl font-bold text-center text-teal-900 mb-12">Our Features</h3>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         {#each features as feature}
-          <div class="bg-white p-6 rounded-lg shadow-md">
-            <h4 class="text-xl font-semibold mb-2">{feature.title}</h4>
-            <p class="text-gray-600">{feature.description}</p>
+          <div class="group relative bg-gradient-to-r from-teal-50 to-yellow-50 p-8 rounded-xl shadow-md transition duration-300 ease-in-out hover:scale-105">
+            <div
+              class="absolute inset-0 opacity-0 group-hover:opacity-20 bg-teal-700 rounded-xl transition-opacity duration-300"
+            ></div>
+            <h4 class="text-2xl font-semibold text-teal-900 relative z-10 mb-4 group-hover:text-white transition-colors duration-300">
+              {feature.title}
+            </h4>
+            <p class="text-md text-gray-700 relative z-10 leading-relaxed group-hover:text-gray-100 transition-colors duration-300">
+              {feature.description}
+            </p>
+            <button
+              class="mt-6 px-4 py-2 bg-teal-500 text-white font-medium rounded-lg hover:bg-yellow-400 hover:text-teal-900 border border-teal-500 transition duration-300 relative z-10"
+            >
+              Learn More
+            </button>
           </div>
         {/each}
       </div>
     </div>
   </section>
-  <section id="about" class="bg-gray-100 py-16">
+
+  <!-- About Section -->
+  <section id="about" class="bg-yellow-50 py-20">
     <div class="container mx-auto px-6 text-center">
-      <h3 class="text-3xl font-bold mb-4">About Us</h3>
-      <p class="text-lg text-gray-700">We are dedicated to providing top-notch solutions to our users.</p>
+      <h3 class="text-3xl font-bold text-teal-900 mb-6">About Us</h3>
+      <p class="text-lg text-gray-700 max-w-2xl mx-auto">
+        We provide innovative solutions to reduce waste and promote sustainability. Join our journey towards a better tomorrow!
+      </p>
     </div>
   </section>
-  <section id="contact" class="py-16">
-    <div class="container mx-auto px-6 text-center">
-      <h3 class="text-3xl font-bold mb-4">Contact Us</h3>
-      <p class="text-gray-600">Feel free to reach out for any inquiries or support.</p>
-      <a href="mailto:contact@example.com" class="block mt-4 text-blue-600 underline">contact@example.com</a>
-    </div>
-  </section>
-  <footer class="bg-gray-800 text-white py-4">
-    <div class="container mx-auto px-6 text-center">
-      <p>&copy; 2025 MyLandingPage. All rights reserved.</p>
-    </div>
-  </footer>
+
+  <Footer />
 </main>

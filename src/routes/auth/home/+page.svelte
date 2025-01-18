@@ -1,4 +1,3 @@
-
 <script lang="ts">
   import Navbar from "$lib/components/ui/navbar/navbar.svelte";
   import Footer from "$lib/components/ui/footer/footer.svelte";
@@ -21,15 +20,15 @@
         <div class="flex justify-between items-center mb-6">
           <div>
             <p class="text-gray-600">Points</p>
-            <p class="text-4xl font-extrabold text-blue-600">{points}</p>
+            <p class="text-4xl font-extrabold text-green-600">{points}</p>
           </div>
           <div>
             <p class="text-gray-600">Credits</p>
-            <p class="text-4xl font-extrabold text-green-600">{credits}</p>
+            <p class="text-4xl font-extrabold text-blue-600">{credits}</p>
           </div>
         </div>
         <button
-          class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          class="w-full bg-green-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-300"
         >
           Generate QR Code
         </button>
@@ -39,12 +38,12 @@
     <!-- Buttons Section -->
     <section class="flex justify-center gap-4 mb-8">
       <button
-        class="bg-blue-500 text-white py-2 px-6 rounded-lg shadow hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
+        class="bg-blue-500 text-white py-2 px-6 rounded-lg shadow hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-300"
       >
         Transaction History
       </button>
       <button
-        class="bg-green-500 text-white py-2 px-6 rounded-lg shadow hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400"
+        class="bg-green-500 text-white py-2 px-6 rounded-lg shadow hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400 transition duration-300"
       >
         View QR Code
       </button>
