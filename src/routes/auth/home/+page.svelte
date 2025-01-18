@@ -1,5 +1,7 @@
 
 <script lang="ts">
+  import Navbar from "$lib/components/ui/navbar/navbar.svelte";
+  import Footer from "$lib/components/ui/footer/footer.svelte";
   let points = 250;
   let credits = 150;
   let transactionHistory = [
@@ -9,6 +11,7 @@
   ];
 </script>
 
+<Navbar />
 <main class="min-h-screen bg-gray-50">
   <div class="container mx-auto px-6 py-8">
     <!-- Points and Credits Section -->
@@ -60,4 +63,5 @@
       </ul>
     </section>
   </div>
+  <Footer />
 </main>
