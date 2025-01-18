@@ -6,7 +6,7 @@
   let password = "";
   let agreeToTerms = false;
 
-  const handleSignUp = (event) => {
+  const handleSignUp = (event: { preventDefault: () => void; }) => {
     event.preventDefault();
     if (!agreeToTerms) {
       alert("You must agree to the terms and conditions.");
