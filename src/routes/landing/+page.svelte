@@ -13,7 +13,7 @@
   <section class="bg-blue-600 text-white py-20">
     <div class="container mx-auto px-6 text-center">
       <a href="/landing">
-        <h2 class="text-4xl font-extrabold mb-4" >Welcome to PARAPOINTS</h2>
+        <h2 class="text-4xl font-extrabold mb-4" >Welcome to PARAPOINTS test</h2>
         </a>
       <p class="text-lg mb-6">Convert your waste into Fare with our Environmental Solution.</p>
       <Button href="/auth/login">Get Started</Button>
