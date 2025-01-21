@@ -1,5 +1,5 @@
 {
-  "id": "b068e756-6d03-48c9-a421-2adf3dd82a88",
+  "id": "bfd972d9-dd0b-4d97-9223-80ea25a14f88",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -84,15 +84,34 @@
           "primaryKey": true,
           "notNull": true
         },
-        "age": {
-          "name": "age",
-          "type": "integer",
+        "firstname": {
+          "name": "firstname",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "middlename": {
+          "name": "middlename",
+          "type": "text",
           "primaryKey": false,
           "notNull": false
         },
-        "username": {
-          "name": "username",
+        "lastname": {
+          "name": "lastname",
           "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "email": {
+          "name": "email",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "role": {
+          "name": "role",
+          "type": "user_role",
+          "typeSchema": "public",
           "primaryKey": false,
           "notNull": true
         },
@@ -107,17 +126,27 @@
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
-        "user_username_unique": {
-          "name": "user_username_unique",
+        "user_email_unique": {
+          "name": "user_email_unique",
           "nullsNotDistinct": false,
           "columns": [
-            "username"
+            "email"
           ]
         }
       }
     }
   },
-  "enums": {},
+  "enums": {
+    "public.user_role": {
+      "name": "user_role",
+      "schema": "public",
+      "values": [
+        "admin",
+        "user",
+        "superadmin"
+      ]
+    }
+  },
   "schemas": {},
   "_meta": {
     "columns": {},
