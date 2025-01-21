@@ -13,12 +13,19 @@
   }
 </script>
 
-<header class="bg-white shadow-lg">
+<header class="bg-green-100 text-gray-800 shadow-lg">
   <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
     <!-- Logo -->
-    <a href="/landing" class="text-2xl font-bold text-green-600 hover:text-green-700 transition duration-300">
-      ECOFARE
-    </a>
+    <a href="/landing" class="flex items-center space-x-2">
+  <img
+    src="/src/image/logo.png"
+    alt="EcoFare Logo"
+    class="w-10 h-10"
+  />
+  <span class="text-2xl font-bold text-green-800 transition duration-300">
+    ECOFARE
+  </span>
+</a>
 
     <!-- Navigation Links (conditionally hidden on the landing page) -->
     {#if !isLandingPage}
