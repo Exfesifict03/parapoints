@@ -1,9 +1,16 @@
-import { pgTable, text, integer, timestamp } from 'drizzle-orm/pg-core';
+import { pgTable, text, integer, timestamp, pgEnum } from 'drizzle-orm/pg-core';
+
+const userRoles = ['admin', 'user', 'superadmin'] as const;
+export type UserRole = (typeof userRoles)[number];
+export const userRole = pgEnum('user_role', userRoles);
 
 export const user = pgTable('user', {
 	id: text('id').primaryKey(),
-	age: integer('age'),
-	username: text('username').notNull().unique(),
+	firstname: text('firstname').notNull(),
+	middlename: text('middlename'),
+	lastname: text('lastname').notNull(),
+	email: text('email').notNull().unique(),
+	userRole: userRole('role').notNull(),
 	passwordHash: text('password_hash').notNull()
 });
 
