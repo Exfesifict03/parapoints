@@ -20,8 +20,8 @@
           Transform Waste into Fare with EcoFare
         </h2>
       </a>
-      <p class="text-lg mb-8">
-        A sustainable solution for a greener planet — Join us in making a difference.
+      <p class="my-4 text-lg max-w-2xl mx-auto text-white">
+        A sustainable solution for a greener planet — Join us in making a difference. Explore below to learn more about the care we provide!
       </p>
       <Button
         href="/auth/login"

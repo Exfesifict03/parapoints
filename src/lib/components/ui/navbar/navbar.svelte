@@ -7,6 +7,10 @@
   onMount(() => {
     isLandingPage = window.location.pathname === "/landing";
   });
+
+  function navigateToProfile() {
+    window.location.href = "/auth/profile";
+  }
 </script>
 
 <header class="bg-white shadow-lg">
@@ -18,8 +22,8 @@
 
     <!-- Navigation Links (conditionally hidden on the landing page) -->
     {#if !isLandingPage}
-      <nav>
-        <ul class="flex items-center space-x-8">
+      <nav class="flex items-center space-x-4 sm:space-x-8">
+        <ul class="hidden sm:flex items-center space-x-4 sm:space-x-8">
           <li>
             <a
               href="#features"
@@ -45,6 +49,28 @@
             </a>
           </li>
         </ul>
+
+        <!-- Profile Button -->
+        <button
+          on:click={navigateToProfile}
+          class="flex items-center space-x-2 bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg transition duration-300 sm:px-6"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5 sm:h-6 sm:w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M5.121 17.804A13.937 13.937 0 0112 15c2.21 0 4.298.534 6.121 1.804M15 11a3 3 0 11-6 0 3 3 0 016 0zm7-1a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+          <span class="hidden sm:inline">Profile</span>
+        </button>
       </nav>
     {/if}
   </div>
