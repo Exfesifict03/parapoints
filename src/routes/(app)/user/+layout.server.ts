@@ -4,12 +4,12 @@ import type { LayoutServerLoad } from './$types';
 export const load: LayoutServerLoad = async (event) => {
 	const user = event.locals.user;
 
-	if (!user || user.role !== 'user') {
+	if (!user || user.userRole !== 'user') {
 		throw redirect(302, '/login');
 	}
 	return {
 		user: {
-			role: user.role
+			role: user.userRole
 		}
 	};
 };

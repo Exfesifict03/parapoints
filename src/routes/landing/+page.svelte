@@ -26,7 +26,7 @@
         A sustainable solution for a greener planet — Join us in making a difference.
       </p>
       <Button
-        href="/auth/login"
+        href="/login"
         class="bg-yellow-400 hover:bg-yellow-500 text-teal-900 py-2 px-6 rounded-full text-lg font-semibold transition duration-300 ease-in-out"
       >
         Get Started

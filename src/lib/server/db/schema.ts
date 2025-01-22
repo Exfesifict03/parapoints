@@ -10,7 +10,7 @@ export const user = pgTable('user', {
 	middlename: text('middlename'),
 	lastname: text('lastname').notNull(),
 	email: text('email').notNull().unique(),
-	userRole: userRole('role').notNull(),
+	userRole: userRole('role'),
 	passwordHash: text('password_hash').notNull()
 });
 
@@ -29,5 +29,4 @@ export const history = pgTable('history', {
 })
 
 export type Session = typeof session.$inferSelect;
-
 export type User = typeof user.$inferSelect;

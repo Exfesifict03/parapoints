@@ -11,16 +11,17 @@ import { user } from '$lib/server/db/schema';
 import { redirect } from '@sveltejs/kit';
 
 export const load: PageServerLoad = async (event) => {
-    if (event.locals.user) {
-        const role = event.locals.user.role;
-        if (role === 'admin' || role === 'superadmin') {
+    
+    if (event.url.pathname === '/login' && event.locals.user) {
+        const userRole = event.locals.user.userRole;
+        
+        if (userRole === 'admin' || userRole === 'superadmin') {
             throw redirect(302, '/');
-        } else if (role === 'user') {
+        } else if (userRole === 'user') {
             throw redirect(302, '/user/home');
-        } else {
-            throw redirect(302, '/login');
         }
     }
+
     return {
         loginForm: await superValidate(zod(loginSchema))
     };
@@ -29,22 +30,19 @@ export const load: PageServerLoad = async (event) => {
 export const actions: Actions = {
     login: async (event) => {
         const form = await superValidate(event, zod(loginSchema));
-        console.log('Form validation result:', form);
 
         if (!form.valid) {
-            console.log('Validation errors:', form.errors);
             return fail(400, { form });
         }
 
         const { email, password } = form.data;
-        console.log('Validated form data:', form.data);
 
         try {
             if (!email) {
                 return setError(form, 'email', 'Email is required');
             }
 
-            const existingUser  = await db
+            const existingUser = await db
                 .select({
                     id: user.id,
                     email: user.email,
@@ -57,23 +55,34 @@ export const actions: Actions = {
                 .from(user)
                 .where(eq(user.email, email));
 
-            console.log('Existing user:', existingUser );
-            if (!existingUser .length) {
+            if (!existingUser.length) {
                 return setError(form, 'email', 'Email not found');
             }
 
-            const userRecord = existingUser [0];
+            const userRecord = existingUser[0];
             const validPassword = await verify(userRecord.hashedPassword, password);
+
             if (!validPassword) {
                 return setError(form, 'password', 'Incorrect password');
             }
+
             const sessionToken = auth.generateSessionToken();
             const session = await auth.createSession(sessionToken, userRecord.id);
             auth.setSessionTokenCookie(event, sessionToken, session.expiresAt);
-            throw redirect(302, '/'); 
+
+            if (userRecord.role === 'admin' || userRecord.role === 'superadmin') {
+                throw redirect(302, '/');
+            } else if (userRecord.role === 'user') {
+                throw redirect(302, '/user/home');
+            } else {
+                throw redirect(302, '/user/home');
+            }
+
         } catch (error) {
-            console.error('Login error:', error);
-            return setError(form, '', 'An unexpected error occurred');
+            if (error instanceof Error && !(error instanceof redirect)) {
+                return setError(form, '', 'An unexpected error occurred');
+            }
+            throw error;
         }
     }
 };
