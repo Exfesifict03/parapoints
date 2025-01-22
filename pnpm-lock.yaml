@@ -29,9 +29,6 @@ importers:
       drizzle-orm:
         specifier: ^0.33.0
         version: 0.33.0(@types/pg@8.11.10)(pg@8.13.1)(postgres@3.4.5)
-      lucide-svelte:
-        specifier: ^0.473.0
-        version: 0.473.0(svelte@5.19.0)
       pg:
         specifier: ^8.13.1
         version: 8.13.1
@@ -90,6 +87,9 @@ importers:
       globals:
         specifier: ^15.14.0
         version: 15.14.0
+      lucide-svelte:
+        specifier: ^0.473.0
+        version: 0.473.0(svelte@5.19.0)
       postcss:
         specifier: ^8.5.1
         version: 8.5.1
