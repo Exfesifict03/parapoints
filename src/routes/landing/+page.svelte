@@ -9,22 +9,24 @@
   ];
 </script>
 
-<main class="min-h-screen bg-gray-50 text-gray-800">
+<main class="min-h-screen bg-gray-50 text-gray-800 ">
   <Navbar />
+  <div class="container mx-auto px-6 py-6">
+    
 
   <!-- Hero Section -->
-  <section class="bg-teal-600 text-white py-40">
+  <section class="flex flex-col md:flex-row min-h-[300px] bg-cover bg-center bg-no-repeat text-gray-800 p-4 md:p-8" style="background-image: url('image/landing1.jpg');">
     <div class="container mx-auto px-6 text-center">
       <a href="/landing">
         <h2 class="text-5xl font-extrabold mb-6 leading-tight">
           Transform Waste into Fare with EcoFare
         </h2>
       </a>
-      <p class="my-4 text-lg max-w-2xl mx-auto text-white">
-        A sustainable solution for a greener planet — Join us in making a difference. Explore below to learn more about the care we provide!
+      <p class="text-lg mb-8">
+        A sustainable solution for a greener planet — Join us in making a difference.
       </p>
       <Button
-        href="/login"
+        href="/auth/login"
         class="bg-yellow-400 hover:bg-yellow-500 text-teal-900 py-2 px-6 rounded-full text-lg font-semibold transition duration-300 ease-in-out"
       >
         Get Started
@@ -68,6 +70,6 @@
       </p>
     </div>
   </section>
-
+  </div>
   <Footer />
 </main>
