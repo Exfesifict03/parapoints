@@ -15,7 +15,7 @@
     
 
   <!-- Hero Section -->
-  <section class="flex flex-col md:flex-row min-h-[300px] bg-cover bg-center bg-no-repeat text-gray-800 p-4 md:p-8" style="background-image: url('image/landing1.jpg');">
+  <section  class="flex flex-col md:flex-row min-h-[10vh] bg-cover bg-center bg-no-repeat text-gray-800 p-6 md:p-10 items-center justify-center" style="background-image: url('/image/landing1.jpg');">
     <div class="container mx-auto px-6 text-center">
       <a href="/landing">
         <h2 class="text-5xl font-extrabold mb-6 leading-tight">
@@ -58,16 +58,6 @@
           </div>
         {/each}
       </div>
-    </div>
-  </section>
-
-  <!-- About Section -->
-  <section id="about" class="bg-yellow-50 py-20">
-    <div class="container mx-auto px-6 text-center">
-      <h3 class="text-3xl font-bold text-teal-900 mb-6">About Us</h3>
-      <p class="text-lg text-gray-700 max-w-2xl mx-auto">
-        We provide innovative solutions to reduce waste and promote sustainability. Join our journey towards a better tomorrow!
-      </p>
     </div>
   </section>
   </div>
