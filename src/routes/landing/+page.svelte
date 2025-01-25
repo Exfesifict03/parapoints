@@ -37,21 +37,21 @@
   <!-- Features Section -->
   <section id="features" class="py-24 bg-gray-50">
     <div class="container mx-auto px-6">
-      <h3 class="text-4xl font-bold text-center text-teal-900 mb-12">Our Features</h3>
+      <h3 class="text-4xl font-bold text-center text-blue-600 mb-12">Our Features</h3>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         {#each features as feature}
-          <div class="group relative bg-gradient-to-r from-teal-50 to-yellow-50 p-8 rounded-xl shadow-md transition duration-300 ease-in-out hover:scale-105">
+          <div class="group relative bg-gradient-to-r from-blue-50 to-blue-100 p-8 rounded-xl shadow-md transition duration-300 ease-in-out hover:scale-105">
             <div
-              class="absolute inset-0 opacity-0 group-hover:opacity-20 bg-teal-700 rounded-xl transition-opacity duration-300"
+              class="absolute inset-0 opacity-0 group-hover:opacity-20 bg-blue-700 rounded-xl transition-opacity duration-300"
             ></div>
-            <h4 class="text-2xl font-semibold text-teal-900 relative z-10 mb-4 group-hover:text-white transition-colors duration-300">
+            <h4 class="text-2xl font-semibold text-blue-600 relative z-10 mb-4 group-hover:text-white transition-colors duration-300">
               {feature.title}
             </h4>
-            <p class="text-md text-gray-700 relative z-10 leading-relaxed group-hover:text-gray-100 transition-colors duration-300">
+            <p class="text-md text-gray-700 relative z-10 leading-relaxed group-hover:text-gray-200 transition-colors duration-300">
               {feature.description}
             </p>
             <button
-              class="mt-6 px-4 py-2 bg-teal-500 text-white font-medium rounded-lg hover:bg-yellow-400 hover:text-teal-900 border border-teal-500 transition duration-300 relative z-10"
+              class="mt-6 px-4 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 hover:text-white border border-blue-500 transition duration-300 relative z-10"
             >
               Learn More
             </button>
@@ -59,7 +59,7 @@
         {/each}
       </div>
     </div>
-  </section>
+  </section>  
   </div>
   <Footer />
 </main>

@@ -34,12 +34,12 @@
         <div class="mt-6 flex flex-col items-center justify-between space-y-4 md:items-start md:gap-8">
             <div class="flex flex-col items-center md:items-start">
                 <Dialog.Root>
-                    <Dialog.Trigger  class="text-white hover:text-green-200 font-semibold transition duration-300 ease-in-out"
+                    <Dialog.Trigger  class="text-white hover:text-cyan-200 font-semibold transition duration-300 ease-in-out"
                      >Terms and Conditions</Dialog.Trigger
                     >
                     <Dialog.Content class="sm:max-w-[425px] overflow-y-auto h-4/5">
                      <Dialog.Header>
-                      <Dialog.Title>Terms and Conditions</Dialog.Title>
+                      <Dialog.Title class="font-bold">Terms and Conditions</Dialog.Title>
                       <Dialog.Description>
                         <p style="text-align: justify;"><strong>1. Acceptance of Terms</strong><br>
                             By accessing and using EcoFare, you accept and agree to be bound by these Terms. If you do not agree with any part of these Terms, you must refrain from using the Service.</p>
