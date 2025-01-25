@@ -72,7 +72,7 @@
                             These Terms will be governed by and construed in accordance with the laws of the Philippines, without regard to its conflict of law principles.</p>
                             
                             <p style="text-align: justify;"><strong>11. Contact Information</strong><br>
-                            If you have any questions or concerns regarding these Terms, please contact us at <a href="mailto:jericho.roque.platilla@apcas.ph.education" class="text-green-500 hover:text-green-700">jericho.roque.platilla@apcas.ph.education</a>.</p>                            
+                            If you have any questions or concerns regarding these Terms, please contact us at <a href="mailto:jericho.roque.platilla@apcas.ph.education" class="text-blue-500 hover:text-blue-700">jericho.roque.platilla@apcas.ph.education</a>.</p>                            
                       </Dialog.Description>
                      </Dialog.Header>
                      <Dialog.Footer>
