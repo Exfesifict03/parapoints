@@ -26,6 +26,7 @@
 		"@sveltejs/kit": "^2.16.0",
 		"@sveltejs/vite-plugin-svelte": "^4.0.4",
 		"@types/pg": "^8.11.10",
+		"@types/swiper": "^6.0.0",
 		"autoprefixer": "^10.4.20",
 		"bits-ui": "^0.22.0",
 		"clsx": "^2.1.1",
@@ -60,6 +61,7 @@
 		"@tailwindcss/forms": "^0.5.10",
 		"@tailwindcss/typography": "^0.5.16",
 		"drizzle-orm": "^0.33.0",
+		"parapoint": "link:",
 		"pg": "^8.13.1",
 		"postgres": "^3.4.5",
 		"svelte-sonner": "^0.3.28"

@@ -92,19 +92,3 @@
     </div>
 </footer>
 
-<!--
-<footer class="bg-green-700 text-white py-6 mt-8">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-        <p class="text-sm text-left">&copy; 2025 EcoFare. All rights reserved.</p>
-        <div class="flex space-x-4">
-            <button
-                on:click={openModal}
-                class="text-white hover:text-green-200 font-semibold transition duration-300 ease-in-out"
-            >
-                Terms and Conditions
-            </button>
-        </div>
-    </div>
-</footer>
--->
-
