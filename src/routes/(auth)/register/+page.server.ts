@@ -16,44 +16,60 @@ export const load: PageServerLoad = async () => {
 
 export const actions: Actions = {
     register: async (event) => {
-        const form = await superValidate(event, zod(registerSchema));
-        if (!form.valid) {
-            return fail(400, {
-                form
-            });
-        }
-
-        const { email, firstname, middlename, lastname, password } = form.data;
+      console.log('Registration attempt started');
+      const form = await superValidate(event, zod(registerSchema));
+      
+      console.log('Form validation result:', {
+        valid: form.valid,
+        data: form.data
+      });
+  
+      if (!form.valid) {
+        console.log('Form validation errors:', form.errors);
+        return fail(400, {form});
+      }
+  
+      const { email, firstname, middlename, lastname, password } = form.data;
+      
+      try {
+        console.log('Attempting user creation', { email, firstname });
+        
+        const hashedPassword = await hash(password, {
+          memoryCost: 19456,
+          timeCost: 2,
+          outputLen: 32,
+          parallelism: 1
+        });
+  
         const userId = crypto.randomUUID();
-
-        try {
-            const hashedPassword = await hash(password, {
-                memoryCost: 19456,
-                timeCost: 2,
-                outputLen: 32,
-                parallelism: 1
-            });
-
-            const safeMiddlename = middlename ?? '';
-
-            await db.insert(user).values({
-                id: userId,
-                email,
-                firstname,
-                middlename: safeMiddlename,
-                lastname,
-                passwordHash: hashedPassword,
-                userRole: 'user'
-            });
-
-            return { form };
-        } catch (e) {
-            if (e instanceof postgres.PostgresError) {
-                if (e.constraint_name === 'auth_user_email_unique') {
-                    return setError(form, 'email', 'Email already taken');
-                }
-            }
-            return setError(form, '', 'Unable to create account');
+        
+        await db.insert(user).values({
+          id: userId,
+          email,
+          firstname,
+          middlename: middlename ?? '',
+          lastname,
+          passwordHash: hashedPassword,
+          userRole: 'user'
+        });
+  
+        console.log('User created successfully', { userId });
+        return { form };
+      } catch (e) {
+        console.error('Registration error:', e);
+        
+        if (e instanceof postgres.PostgresError) {
+          console.error('Postgres Error Details:', {
+            code: e.code,
+            constraintName: e.constraint_name
+          });
+          
+          if (e.constraint_name === 'auth_user_email_unique') {
+            return setError(form, 'email', 'Email already taken');
+          }
         }
+        
+        return setError(form, '', 'Unable to create account');
+      }
     }
-};
+  };
