@@ -1,123 +1,155 @@
-import type { RequestHandler } from '@sveltejs/kit';
+import { json, redirect, type RequestHandler } from '@sveltejs/kit';
 import { db } from '$lib/server/db';
-import { points } from '$lib/server/db/schema';
-import axios from 'axios';
-import { v4 as uuidv4 } from 'uuid';
-import archiver from 'archiver';
-import { PassThrough } from 'stream';
+import { points, user } from '$lib/server/db/schema';
+import { eq } from 'drizzle-orm';
 
-async function generateQRCode(qrCodeUrl: string, retries = 3, delay = 1000): Promise<Buffer> {
-    for (let attempt = 1; attempt <= retries; attempt++) {
-        try {
-            const response = await axios.get(qrCodeUrl, {
-                responseType: 'arraybuffer',
-                timeout: 10000,
-            });
-            return Buffer.from(response.data);
-        } catch (error) {
-            if (attempt === retries) throw error;
-            await new Promise((resolve) => setTimeout(resolve, delay * attempt));
-        }
+export const POST: RequestHandler = async ({ request, locals }) => {
+  try {
+    const currentUser = locals.user;
+    if (!currentUser) {
+      throw redirect(302, '/login');
     }
-    throw new Error('Failed to generate QR code after retries');
-}
 
-export const GET: RequestHandler = async ({ url }) => {
-    const passThrough = new PassThrough();
-    const archive = archiver('zip', { zlib: { level: 6 } });
+    const userId = currentUser.id;
+    if (!userId) {
+      return json(
+        {
+          message: 'Unauthorized: User ID is missing',
+          status: 'error',
+        },
+        { status: 401 }
+      );
+    }
 
+    const { qr_code } = await request.json();
+    if (!qr_code) {
+      return json(
+        {
+          message: 'Missing required field: qr_code',
+          status: 'error',
+        },
+        { status: 400 }
+      );
+    }
+
+    let parsedQRCode;
     try {
-        const size = url.searchParams.get('size') || '200x200';
-        archive.pipe(passThrough);
-
-        const pointsData = await db.select().from(points);
-        if (pointsData.length === 0) {
-            return new Response(JSON.stringify({ error: 'No points data found' }), {
-                status: 404,
-                headers: { 'Content-Type': 'application/json' },
-            });
-        }
-
-        for (const point of pointsData) {
-            const qrContent = JSON.stringify({
-                id: point.id,
-                amount: point.amount,
-                scanTime: point.scanTime,
-            });
-            const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=${size}&data=${encodeURIComponent(qrContent)}`;
-            const buffer = await generateQRCode(qrCodeUrl);
-            archive.append(buffer, { name: `${point.id}.png` });
-        }
-
-        await archive.finalize();
-        const readableStream = new ReadableStream({
-            start(controller) {
-                passThrough.on('data', (chunk) => controller.enqueue(chunk));
-                passThrough.on('end', () => controller.close());
-                passThrough.on('error', (err) => controller.error(err));
-            },
-            cancel() {
-                passThrough.destroy();
-            },
-        });
-
-        return new Response(readableStream, {
-            headers: {
-                'Content-Type': 'application/zip',
-                'Content-Disposition': 'attachment; filename=points_qr_codes.zip',
-                'Cache-Control': 'no-store, max-age=0',
-            },
-        });
-    } catch (error) {
-        passThrough.destroy();
-        console.error('Error generating QR codes:', error);
-        return new Response(
-            JSON.stringify({ error: 'Failed to generate QR codes', message: error.message || 'Unknown error' }),
-            {
-                status: 500,
-                headers: { 'Content-Type': 'application/json' },
-            }
-        );
+      parsedQRCode = JSON.parse(qr_code);
+    } catch {
+      return json(
+        {
+          message: 'Invalid QR code format',
+          status: 'error',
+        },
+        { status: 400 }
+      );
     }
-};
 
-export const POST: RequestHandler = async ({ request }) => {
-    try {
-        const { amount } = await request.json() as { amount: number };
-        if (!amount || amount <= 0) {
-            return new Response(JSON.stringify({ error: 'Invalid amount provided' }), {
-                status: 400,
-                headers: { 'Content-Type': 'application/json' },
-            });
-        }
-
-        const newId = uuidv4();
-        const currentTime = new Date();
-
-        await db.insert(points).values({
-            id: newId,
-            amount,
-            scanTime: currentTime,
-        });
-
-        const qrContent = JSON.stringify({ id: newId, amount, scanTime: currentTime.toISOString() });
-        const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(qrContent)}`;
-        const qrCodeBuffer = await generateQRCode(qrCodeUrl);
-
-        return new Response(qrCodeBuffer, {
-            headers: {
-                'Content-Type': 'image/png',
-                'Content-Disposition': `attachment; filename=${newId}.png`,
-            },
-        });
-    } catch (error) {
-        console.error('Error generating QR code:', error);
-        return new Response(
-            JSON.stringify({ error: 'Failed to generate QR code', message: error.message || 'Unknown error' }),
-            {
-                status: 500,
-                headers: { 'Content-Type': 'application/json' },
-            }
-        );
+    const { id: pointId } = parsedQRCode; // Extract 'id' from QR code
+    if (!pointId) {
+      return json(
+        {
+          message: 'QR code does not contain a valid pointId',
+          status: 'error',
+        },
+        { status: 400 }
+      );
     }
+
+    const [pointRecord] = await db
+      .select({
+        id: points.id,
+        amount: points.amount,
+        status: points.status,
+      })
+      .from(points)
+      .where(eq(points.id, pointId.trim()))
+      .limit(1);
+
+    if (!pointRecord) {
+      return json(
+        {
+          message: 'Point not found for the provided QR code',
+          status: 'error',
+        },
+        { status: 404 }
+      );
+    }
+
+    if (pointRecord.status === 'scanned') {
+      return json(
+        {
+          message: 'This QR code has already been scanned',
+          status: 'error',
+        },
+        { status: 409 }
+      );
+    }
+
+    const [userRecord] = await db
+      .select({
+        id: user.id,
+        points: user.points,
+      })
+      .from(user)
+      .where(eq(user.id, userId.trim()))
+      .limit(1);
+
+    if (!userRecord) {
+      return json(
+        {
+          message: 'User not found for the current session',
+          status: 'error',
+        },
+        { status: 404 }
+      );
+    }
+
+    const updatedPoints = parseInt(userRecord.points ?? '0') + pointRecord.amount;
+
+    await db
+      .update(user)
+      .set({ points: updatedPoints.toString() })
+      .where(eq(user.id, userRecord.id));
+
+    const [updatedPoint] = await db
+      .update(points)
+      .set({ status: 'scanned' })
+      .where(eq(points.id, pointRecord.id))
+      .returning({
+        id: points.id,
+        status: points.status,
+      });
+
+    if (!updatedPoint) {
+      return json(
+        {
+          message: 'Failed to update point status',
+          status: 'error',
+        },
+        { status: 500 }
+      );
+    }
+
+    return json(
+      {
+        message: 'QR Code scanned successfully',
+        data: {
+          user: { id: userRecord.id, updatedPoints },
+          point: updatedPoint,
+        },
+        status: 'success',
+      },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error(error);
+    return json(
+      {
+        message: 'Error processing QR code scan',
+        status: 'error',
+      },
+      { status: 500 }
+    );
+  }
 };

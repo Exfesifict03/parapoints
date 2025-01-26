@@ -1,5 +1,5 @@
 {
-  "id": "e0c0d790-5fbf-423d-8828-0e90d604a483",
+  "id": "9e3d5d17-6de7-4c13-bf18-bd22de164a37",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -161,6 +161,13 @@
           "type": "text",
           "primaryKey": false,
           "notNull": true
+        },
+        "points": {
+          "name": "points",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'0'"
         }
       },
       "indexes": {},
