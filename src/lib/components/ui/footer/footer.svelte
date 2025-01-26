@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { fade } from 'svelte/transition'; // Import fade transition from Svelte
+    import { fade } from 'svelte/transition'; 
     import {
     Button,
     buttonVariants
@@ -11,8 +11,7 @@
 
 <footer class="relative bg-blue-950 text-white py-6 px-2 md:flex md:flex-col md:items-center md:py-0 md:pt-6 md:px-6">
     <div class="absolute inset-0 z-0">
-        <!-- Use w-full and h-full to ensure the image covers the entire footer -->
-        <img src="image/landing1.jpg" class="w-full h-full object-cover opacity-30" alt="Footer-Cover">
+        <img src="/image/landing1.jpg" class="w-full h-full object-cover opacity-30" alt="Footer-Cover">
     </div>
 
     <div class="md:gap-8 relative z-10 md:mt-10 md:flex md:space-x-12 md:items-center md:justify-center">

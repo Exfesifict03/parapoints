@@ -4,6 +4,10 @@ const userRoles = ['admin', 'user', 'superadmin'] as const;
 export type UserRole = (typeof userRoles)[number];
 export const userRole = pgEnum('user_role', userRoles);
 
+const Statuses = ['unscan', 'scanned'] as const;
+export type Status = (typeof Statuses)[number];
+export const status = pgEnum('status', Statuses);
+
 export const user = pgTable('user', {
 	id: text('id').primaryKey(),
 	firstname: text('firstname').notNull(),
@@ -11,7 +15,8 @@ export const user = pgTable('user', {
 	lastname: text('lastname').notNull(),
 	email: text('email').notNull().unique(),
 	userRole: userRole('role'),
-	passwordHash: text('password_hash').notNull()
+	passwordHash: text('password_hash').notNull(),
+	points: text('points').default('0'),
 });
 
 export const session = pgTable('session', {
@@ -30,8 +35,11 @@ export const history = pgTable('history', {
 export const points = pgTable('points', {
 	id: text('id').primaryKey(),
 	amount: integer('amount').notNull(),
-	scanTime: timestamp('scan_time', { withTimezone: true, mode: 'date' }).notNull()
+	qrUrl: text('qr_url').notNull(),
+	status: status('status').notNull(),
+	createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull()
 })
+
 export type Points = typeof points.$inferSelect;
 export type Session = typeof session.$inferSelect;
 export type User = typeof user.$inferSelect;

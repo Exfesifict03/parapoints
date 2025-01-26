@@ -57,13 +57,21 @@
 		"@node-rs/argon2": "^1.8.3",
 		"@oslojs/crypto": "^1.0.1",
 		"@oslojs/encoding": "^1.1.0",
+		"@supabase/supabase-js": "^2.48.1",
 		"@tailwindcss/container-queries": "^0.1.1",
 		"@tailwindcss/forms": "^0.5.10",
 		"@tailwindcss/typography": "^0.5.16",
+		"archiver": "^7.0.1",
+		"axios": "^1.7.9",
 		"drizzle-orm": "^0.33.0",
+		"install": "^0.13.0",
+		"npm": "^11.0.0",
 		"parapoint": "link:",
 		"pg": "^8.13.1",
 		"postgres": "^3.4.5",
-		"svelte-sonner": "^0.3.28"
+		"qr-scanner": "^1.4.2",
+		"stream": "^0.0.3",
+		"svelte-sonner": "^0.3.28",
+		"uuid": "^11.0.5"
 	}
 }

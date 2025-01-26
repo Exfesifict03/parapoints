@@ -1,4 +1,10 @@
 DO $$ BEGIN
+ CREATE TYPE "public"."status" AS ENUM('unscan', 'scanned');
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
  CREATE TYPE "public"."user_role" AS ENUM('admin', 'user', 'superadmin');
 EXCEPTION
  WHEN duplicate_object THEN null;
@@ -7,6 +13,14 @@ END $$;
 CREATE TABLE IF NOT EXISTS "history" (
 	"id" text PRIMARY KEY NOT NULL,
 	"amount" integer NOT NULL,
+	"created_at" timestamp with time zone NOT NULL
+);
+--> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "points" (
+	"id" text PRIMARY KEY NOT NULL,
+	"amount" integer NOT NULL,
+	"qr_url" text NOT NULL,
+	"status" "status" NOT NULL,
 	"created_at" timestamp with time zone NOT NULL
 );
 --> statement-breakpoint
@@ -22,7 +36,7 @@ CREATE TABLE IF NOT EXISTS "user" (
 	"middlename" text,
 	"lastname" text NOT NULL,
 	"email" text NOT NULL,
-	"role" "user_role" NOT NULL,
+	"role" "user_role",
 	"password_hash" text NOT NULL,
 	CONSTRAINT "user_email_unique" UNIQUE("email")
 );
