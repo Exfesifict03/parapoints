@@ -1,12 +1,28 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import { CircleUserIcon } from "lucide-svelte";
+  import CirclePlus from "lucide-svelte/icons/circle-plus";
+  import Cloud from "lucide-svelte/icons/cloud";
+  import CreditCard from "lucide-svelte/icons/credit-card";
+  import Github from "lucide-svelte/icons/github";
+  import Keyboard from "lucide-svelte/icons/keyboard";
+  import LifeBuoy from "lucide-svelte/icons/life-buoy";
+  import LogOut from "lucide-svelte/icons/log-out";
+  import Mail from "lucide-svelte/icons/mail";
+  import MessageSquare from "lucide-svelte/icons/message-square";
+  import Plus from "lucide-svelte/icons/plus";
+  import Settings from "lucide-svelte/icons/settings";
+  import User from "lucide-svelte/icons/user";
+  import UserPlus from "lucide-svelte/icons/user-plus";
+  import Users from "lucide-svelte/icons/users";
+ 
+  import { Button } from "$lib/components/ui/button/index.js";
+  import * as DropdownMenu from "$lib/components/ui/dropdown-menu/index.js";
   let isLandingPage = false;
 
   onMount(() => {
     isLandingPage = window.location.pathname === "/landing";
   });
-
   function navigateToProfile() {
     window.location.href = "/auth/profile";
   }
@@ -27,38 +43,38 @@
 
     {#if !isLandingPage}
       <nav class="flex items-center space-x-4 sm:space-x-8">
-        <ul class="hidden sm:flex items-center space-x-4 sm:space-x-8">
-          <li>
-            <a
-              href="#features"
-              class="text-gray-700 hover:text-green-600 font-medium transition-colors duration-300"
-            >
-              Features
-            </a>
-          </li>
-          <li>
-            <a
-              href="#about"
-              class="text-gray-700 hover:text-green-600 font-medium transition-colors duration-300"
-            >
-              About
-            </a>
-          </li>
-          <li>
-            <a
-              href="#contact"
-              class="text-gray-700 hover:text-green-600 font-medium transition-colors duration-300"
-            >
-              Contact
-            </a>
-          </li>
-        </ul>
-        <button
-          on:click={navigateToProfile}
-          class="flex items-center space-x-2 bg-transparent  text-white font-medium py-2 px-4 rounded-lg transition duration-300 sm:px-6"
-        >
-        <CircleUserIcon class="text-black w-6 h-6" />
-        </button>
+
+        <DropdownMenu.Root>
+          <DropdownMenu.Trigger asChild let:builder>
+            <Button  class="flex items-center space-x-2 bg-transparent  text-white font-medium py-2 px-4 rounded-lg transition duration-300 sm:px-6" builders={[builder]} variant="outline">   <CircleUserIcon class="text-black w-6 h-6" /></Button>
+          </DropdownMenu.Trigger>
+          <DropdownMenu.Content class="w-56">
+            <DropdownMenu.Label>My Account</DropdownMenu.Label>
+            <DropdownMenu.Separator />
+            <DropdownMenu.Group>
+              <DropdownMenu.Item>
+                <User class="mr-2 h-4 w-4" />
+                <span>Profile</span>
+              </DropdownMenu.Item>
+              <DropdownMenu.Item>
+                <Settings class="mr-2 h-4 w-4" />
+                <span>Settings</span>
+              </DropdownMenu.Item>
+            </DropdownMenu.Group>
+            <DropdownMenu.Item>
+              <LifeBuoy class="mr-2 h-4 w-4" />
+              <span>Support</span>
+            </DropdownMenu.Item>
+            <DropdownMenu.Separator />
+            <form action="/logout" method="POST">
+            <DropdownMenu.Item>
+              <LogOut class="mr-2 h-4 w-4" />
+              <button>Log out</button>
+            </DropdownMenu.Item>
+            </form>
+          </DropdownMenu.Content>
+        </DropdownMenu.Root>
+
       </nav>
     {/if}
   </div>
