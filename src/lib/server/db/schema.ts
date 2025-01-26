@@ -27,6 +27,11 @@ export const history = pgTable('history', {
 	amount: integer('amount').notNull(),
 	createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull()
 })
-
+export const points = pgTable('points', {
+	id: text('id').primaryKey(),
+	amount: integer('amount').notNull(),
+	scanTime: timestamp('scan_time', { withTimezone: true, mode: 'date' }).notNull()
+})
+export type Points = typeof points.$inferSelect;
 export type Session = typeof session.$inferSelect;
 export type User = typeof user.$inferSelect;
