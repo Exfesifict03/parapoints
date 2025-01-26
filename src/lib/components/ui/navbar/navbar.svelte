@@ -3,7 +3,6 @@
   import { CircleUserIcon } from "lucide-svelte";
   let isLandingPage = false;
 
-  // Check the current URL to determine if it's the landing page
   onMount(() => {
     isLandingPage = window.location.pathname === "/landing";
   });
@@ -15,10 +14,9 @@
 
 <header class="bg-transparent text-gray-800 shadow-lg border-b-2 border-gray-100">
   <div class=" x-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
-    <!-- Logo -->
     <a href="/landing" class="flex items-center space-x-2">
   <img
-    src="image/logo.png"
+    src="/image/logo.png"
     alt="EcoFare Logo"
     class="w-10 h-10 rounded-full"
   />
@@ -27,7 +25,6 @@
   </span>  
 </a>
 
-    <!-- Navigation Links (conditionally hidden on the landing page) -->
     {#if !isLandingPage}
       <nav class="flex items-center space-x-4 sm:space-x-8">
         <ul class="hidden sm:flex items-center space-x-4 sm:space-x-8">
@@ -56,8 +53,6 @@
             </a>
           </li>
         </ul>
-
-        <!-- Profile Button -->
         <button
           on:click={navigateToProfile}
           class="flex items-center space-x-2 bg-transparent  text-white font-medium py-2 px-4 rounded-lg transition duration-300 sm:px-6"

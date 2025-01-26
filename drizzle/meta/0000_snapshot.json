@@ -1,5 +1,5 @@
 {
-  "id": "1295ec31-39a3-486f-a6ec-73fdba436377",
+  "id": "e0c0d790-5fbf-423d-8828-0e90d604a483",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -17,6 +17,47 @@
         "amount": {
           "name": "amount",
           "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.points": {
+      "name": "points",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "amount": {
+          "name": "amount",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "qr_url": {
+          "name": "qr_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "status": {
+          "name": "status",
+          "type": "status",
+          "typeSchema": "public",
           "primaryKey": false,
           "notNull": true
         },
@@ -113,7 +154,7 @@
           "type": "user_role",
           "typeSchema": "public",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "password_hash": {
           "name": "password_hash",
@@ -137,6 +178,14 @@
     }
   },
   "enums": {
+    "public.status": {
+      "name": "status",
+      "schema": "public",
+      "values": [
+        "unscan",
+        "scanned"
+      ]
+    },
     "public.user_role": {
       "name": "user_role",
       "schema": "public",
