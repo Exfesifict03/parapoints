@@ -13,10 +13,9 @@ const supabase = createClient(env.SUPABASE_URL!, env.SUPABASE_SERVICE_KEY);
 
 export async function POST({ request }) {
 	try {
-		
 		const { amount } = await request.json();
 
-		
+		// Validate the amount
 		if (!amount || amount <= 0) {
 			return json({ error: 'Invalid amount entered.' }, { status: 400 });
 		}
@@ -24,17 +23,17 @@ export async function POST({ request }) {
 		const id = uuidv4();
 		const createdAt = new Date();
 
-		
-		const qrContent = JSON.stringify({ id, amount, createdAt });
+		// Only include the ID in the QR code content
+		const qrContent = JSON.stringify({ id });
 		const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(qrContent)}`;
 
-		
+		// Generate the QR code
 		const qrResponse = await axios.get(qrCodeUrl, { responseType: 'arraybuffer' });
 		if (!qrResponse || qrResponse.status !== 200) {
 			throw new Error('Failed to generate QR code.');
 		}
 
-		
+		// Upload the QR code to Supabase storage
 		const qrFileName = `point-${id}.png`;
 		const uploadResult = await supabase.storage
 			.from('PARAPOINTS')
@@ -47,7 +46,7 @@ export async function POST({ request }) {
 			throw new Error(`Failed to upload QR code to Supabase: ${uploadResult.error.message}`);
 		}
 
-		
+		// Get the public URL of the uploaded QR code
 		const { data: publicUrlData } = supabase.storage
 			.from('PARAPOINTS')
 			.getPublicUrl(`qr-codes/${qrFileName}`);
@@ -56,17 +55,17 @@ export async function POST({ request }) {
 			throw new Error('Failed to get public URL of the uploaded QR code.');
 		}
 
-		
+		// Insert the new point into the database
 		const newPoint = {
 			id,
 			amount,
 			qrUrl: publicUrlData.publicUrl,
-            status: 'unscan' as const,
+			status: 'unscan' as const,
 			createdAt,
 		};
 		await db.insert(points).values(newPoint);
 
-		
+		// Return success response
 		return json({
 			success: true,
 			message: 'QR code generated and point created successfully.',

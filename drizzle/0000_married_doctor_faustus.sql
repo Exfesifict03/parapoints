@@ -38,6 +38,7 @@ CREATE TABLE IF NOT EXISTS "user" (
 	"email" text NOT NULL,
 	"role" "user_role",
 	"password_hash" text NOT NULL,
+	"points" text DEFAULT '0',
 	CONSTRAINT "user_email_unique" UNIQUE("email")
 );
 --> statement-breakpoint
