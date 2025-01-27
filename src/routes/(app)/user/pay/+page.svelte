@@ -8,44 +8,42 @@
 	let qrScanner: QrScanner | null = null;
 	let lastScanTime = 0;
 	
-	async function handleScanResult(qrCode: string) {
-	  const now = Date.now();
-	  if (now - lastScanTime < 3000) return; // Prevent multiple rapid scans
-	  lastScanTime = now;
+	// async function handleScanResult(qrCode: string) {
+	//   const now = Date.now();
+	//   if (now - lastScanTime < 3000) return; 
+	//   lastScanTime = now;
 	
-	  if (qrCode) {
-		console.log('Scanned QR Code:', qrCode);
-		try {
-		  // Parse the QR code to ensure it's valid JSON
-		  const parsedQRCode = JSON.parse(qrCode);
+	//   if (qrCode) {
+	// 	console.log('Scanned QR Code:', qrCode);
+	// 	try {
+	// 	  const parsedQRCode = JSON.parse(qrCode);
 		  
-		  // Send QR code to the API endpoint
-		  const response = await fetch('/qrscan', {
-			method: 'POST',
-			headers: {
-			  'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({ qr_code: qrCode }),
-		  });
+	// 	  const response = await fetch('/qrscan', {
+	// 		method: 'POST',
+	// 		headers: {
+	// 		  'Content-Type': 'application/json',
+	// 		},
+	// 		body: JSON.stringify({ qr_code: qrCode }),
+	// 	  });
 	
-		  const result = await response.json();
+	// 	  const result = await response.json();
 		  
-		  if (response.ok && result.status === 'success') {
-			toast.success('Points redeemed successfully');
-		  } else {
-			toast.error(result.message || 'Failed to redeem points');
-		  }
-		} catch (error) {
-		  console.error('API Error:', error);
+	// 	  if (response.ok && result.status === 'success') {
+	// 		toast.success('Points redeemed successfully');
+	// 	  } else {
+	// 		toast.error(result.message || 'Failed to redeem points');
+	// 	  }
+	// 	} catch (error) {
+	// 	  console.error('API Error:', error);
 		  
-		  if (error instanceof SyntaxError) {
-			toast.error('Invalid QR code format');
-		  } else {
-			toast.error('Failed to redeem points. Please try again.');
-		  }
-		}
-	  }
-	}
+	// 	  if (error instanceof SyntaxError) {
+	// 		toast.error('Invalid QR code format');
+	// 	  } else {
+	// 		toast.error('Failed to redeem points. Please try again.');
+	// 	  }
+	// 	}
+	//   }
+	// }
 	
 	function onPermissionError() {
 	  toast.error('Camera permission rejected');
@@ -67,7 +65,7 @@
 		  (result) => {
 			const scanResult = typeof result === 'string' ? result : result?.data;
 			if (scanResult) {
-			  handleScanResult(scanResult);
+			//   handleScanResult(scanResult);
 			} else {
 			  toast.error('Invalid QR code data');
 			}
@@ -98,7 +96,6 @@
 	
 	<Toaster />
 	<div class="flex flex-col gap-4 mt-6 mb-5 px-4">
-	  <!-- Back Button -->
 	  <div class="flex justify-start">
 		<a href="/user/home">
 		  <Button
@@ -109,10 +106,8 @@
 		  </Button>
 		</a>
 	  </div>
-	  
-	  <!-- QR Scanner Section -->
 	  <div class="flex flex-col items-center gap-4">
-		<div class="text-xl font-bold md:text-2xl">Scan EcoTicket</div>
+		<div class="text-xl font-bold md:text-2xl">Scan Drivers Qr Code</div>
 		<div class="flex w-full items-center justify-center rounded-lg border-2 border-dashed border-primary sm:w-[320px] md:w-[480px] lg:w-[640px]">
 		  <video bind:this={videoElem} class="w-full rounded-lg" playsinline></video>
 		</div>
