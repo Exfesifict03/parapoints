@@ -4,13 +4,9 @@
   import { QrCode, Coins } from "lucide-svelte";
 
   let points: number = 0; 
-  let transactionHistory = [
-    { date: '2025-01-10', points: 50 },
-    { date: '2025-01-09', points: 100 },
-    { date: '2025-01-08', points: 50 }
-  ];
+  let transactionHistory: { date: string, points: number }[] = [];
 
-
+  // Fetch user points
   async function fetchUserPoints() {
     try {
       const response = await fetch('/points/fetch', {
@@ -27,7 +23,7 @@
 
       const data = await response.json();
       if (data.status === 'success' && data.data?.user?.points) {
-        points = parseFloat(data.data.user.points); // Set points as a float
+        points = parseFloat(data.data.user.points);
       } else {
         console.error('Failed to fetch points:', data.message);
       }
@@ -35,8 +31,38 @@
       console.error('Error fetching user points:', error);
     }
   }
+
+  async function fetchTransactionHistory() {
+    try {
+      const response = await fetch('/transaction', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      if (data.status === 'success' && Array.isArray(data.data)) {
+        transactionHistory = data.data.map((item: { createdAt: string | number | Date; amount: any; }) => ({
+          date: new Date(item.createdAt).toLocaleDateString(),
+          points: item.amount,
+        }));
+      } else {
+        console.error('Failed to fetch transaction history:', data.message);
+      }
+    } catch (error) {
+      console.error('Error fetching transaction history:', error);
+    }
+  }
+
   onMount(() => {
     fetchUserPoints();
+    fetchTransactionHistory();
   });
 </script>
 
@@ -51,32 +77,37 @@
         <div class="absolute inset-0 rounded-full bg-gradient-to-tr from-green-400 to-green-600 blur-md animate-pulse"></div>
         <div class="absolute inset-0 rounded-full border-2 border-green-400 animate-ripple"></div>
         <div class="relative z-10 text-center">
-          <h2 class="text-lg font-medium text-gray-700">Points</h2>
-          <p class="text-5xl font-bold text-green-600">{points.toFixed(2)}</p> <!-- Ensure points display as float -->
+          <p class="text-4xl font-bold text-green-600">{points.toFixed(2)}</p> 
         </div>
       </div>
     </section>
     <section class="text-center text-white space-y-4 sm:space-y-0 sm:flex sm:justify-center sm:gap-6">
-      <a href="/user/scanner">
-          <Button variant="outline" class="bg-gray-900 hover:bg-gray-300">
-            <QrCode class="mr-2" /> Scan Ticket
-          </Button>
+      <a href="/user/redeem">
+        <Button variant="outline" class="bg-gray-900 hover:bg-gray-300">
+          <QrCode class="mr-2" /> Scan Ticket
+        </Button>
       </a>
-      <Button variant="outline" class="bg-gray-900 hover:bg-gray-300">
-        <Coins class="mr-2" /> Pay Fare
-      </Button>
+      <a href="/user/pay">
+        <Button variant="outline" class="bg-gray-900 hover:bg-gray-300">
+          <Coins class="mr-2" /> Pay Fare
+        </Button>
+      </a>
     </section>
     <section class="bg-white shadow-md rounded-lg p-6">
-      <h3 class="text-xl font-semibold text-gray-800 mb-4">Transaction History</h3>
+      <h3 class="text-xl font-semibold text-gray-800 mb-4 text-center">Transaction History</h3>
+      <div class="grid grid-cols-2 gap-4 mb-4">
+        <span class="text-black font-medium">Date</span>
+        <span class="text-black font-medium text-right">Points</span>
+      </div>
       <ul class="divide-y divide-gray-200">
         {#each transactionHistory as transaction}
           <li class="py-4 flex justify-between items-center">
             <span class="text-gray-600">{transaction.date}</span>
-            <span class="text-gray-800 font-medium">+{transaction.points} Points</span>
+            <span class="text-green-600 font-medium text-right">+{transaction.points} Points</span>
           </li>
         {/each}
       </ul>
-    </section>
+    </section>    
   </div>
 </main>
 

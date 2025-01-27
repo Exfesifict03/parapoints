@@ -29,9 +29,10 @@ export const session = pgTable('session', {
 
 export const history = pgTable('history', {
 	id: text('id').primaryKey(),
+	userId: text('user_id').notNull().references(() => user.id),
 	amount: integer('amount').notNull(),
 	createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull()
-})
+});
 export const points = pgTable('points', {
 	id: text('id').primaryKey(),
 	amount: integer('amount').notNull(),

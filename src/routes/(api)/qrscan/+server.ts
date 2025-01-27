@@ -1,7 +1,8 @@
 import { json, redirect, type RequestHandler } from '@sveltejs/kit';
 import { db } from '$lib/server/db';
-import { points, user } from '$lib/server/db/schema';
+import { points, user, history } from '$lib/server/db/schema';
 import { eq } from 'drizzle-orm';
+import { v4 as uuidv4 } from 'uuid'; // Assuming UUID is used for generating the `history` ID
 
 export const POST: RequestHandler = async ({ request, locals }) => {
   try {
@@ -130,6 +131,14 @@ export const POST: RequestHandler = async ({ request, locals }) => {
         { status: 500 }
       );
     }
+    const historyEntry = {
+      id: uuidv4(),
+      userId: userRecord.id,
+      amount: pointRecord.amount,
+      createdAt: new Date(),
+    };
+
+    await db.insert(history).values(historyEntry);
 
     return json(
       {
@@ -137,6 +146,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
         data: {
           user: { id: userRecord.id, updatedPoints },
           point: updatedPoint,
+          history: historyEntry,
         },
         status: 'success',
       },
