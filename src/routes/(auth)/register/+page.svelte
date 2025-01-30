@@ -6,6 +6,7 @@
     import { defaults, superForm } from 'sveltekit-superforms';
     import { registerSchema } from '$lib/zod-schema';
     import { toast, Toaster } from 'svelte-sonner';
+    import Footer from '$lib/components/ui/footer/footer.svelte';
   
     const form = superForm(defaults(zod(registerSchema)), {
           validators: zodClient(registerSchema),
@@ -21,13 +22,13 @@
       });
   
       const { form: formData, enhance } = form;
-      
+
   </script>
   
   <Navbar />
   <main class="min-h-screen bg-gray-50 flex items-center justify-center">
     <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-      <Toaster />
+      <Toaster position="top-center"  />
       <form method="POST" use:enhance action="?/register">
         <div class="space-y-6">
           <div class="space-y-2 text-center">
@@ -108,11 +109,12 @@
               </ul>
             </div>
           </div>
-          <Form.Button class="w-full">Register</Form.Button>
+          <Form.Button class="w-full bg-gray-900 hover:bg-blue-900">Register</Form.Button>
         </div>
       </form>
       <p class="text-center text-gray-600 text-sm mt-4">
-        Already have an account? <a href="/login" class="text-green-600 hover:underline">Login</a>
+        Already have an account? <a href="/login" class="text-blue-600 hover:underline">Login</a>
       </p>
     </div>
   </main>
+  <Footer />

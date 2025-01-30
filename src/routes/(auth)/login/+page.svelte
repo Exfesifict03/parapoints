@@ -7,6 +7,7 @@
     import { toast, Toaster } from 'svelte-sonner';
     import { Button } from '$lib/components/ui/button';
     import Navbar from "$lib/components/ui/navbar/navbar.svelte";
+    import Footer from '$lib/components/ui/footer/footer.svelte';
   
     const form = superForm(defaults(zod(loginSchema)), {
           validators: zodClient(loginSchema),
@@ -61,11 +62,12 @@
                         <Form.FieldErrors class="text-sm text-red-500 mt-1" />
                     </Form.Field>
                 </div>
-                <Form.Button class="w-full">Login</Form.Button>
+                <Form.Button class="w-full bg-gray-900 hover:bg-blue-900">Login</Form.Button>
             </div>
         </form>
         <p class="text-center text-gray-600 text-sm mt-4">
-            Don't have an account? <a href="/register" class="text-green-600 hover:underline">Sign up</a>
+            Don't have an account? <a href="/register" class="text-blue-600 hover:underline">Sign up</a>
         </p>
     </div>
   </main>
+  <Footer />

@@ -2,6 +2,17 @@
   import Footer from "$lib/components/ui/footer/footer.svelte";
   import { Button } from "$lib/components/ui/button/index.js";
   import Navbar from "$lib/components/ui/navbar/navbar.svelte";
+  import * as Dialog from "$lib/components/ui/dialog/index.js";
+
+  let activeModal: number | null = null; // ✅ Fix: Changed from 'const' to 'let'
+
+  const openModal = (id: number) => {
+    activeModal = id;
+  };
+
+  const closeModal = () => {
+    activeModal = null;
+  };
 
   let features = [
     { 
@@ -43,25 +54,19 @@
       `
     }
   ];
-
-  let activeModal: number | null = null;
-
-  const openModal = (id: number) => {
-    activeModal = id;
-  };
-
-  const closeModal = () => {
-    activeModal = null;
-  };
 </script>
 
-<main class="min-h-screen bg-gray-50 text-gray-800">
+<main class="mt-10 min-h-screen bg-gray-50 text-gray-800">
   <Navbar />
-  <div class="w-full h-full p-0"> 
+  <div class="w-full h-full p-0 mt-16"> 
     <section class="flex flex-col md:flex-row min-h-[10vh] bg-cover bg-center bg-no-repeat text-gray-800 p-6 md:p-10 items-center 
     justify-between space-y-6 md:space-y-0" style="background-image: url('image/bgl.png');">
-      <!-- Text Container -->
       <div class="md:w-1/2 w-full text-center md:text-left px-4 md:px-6">
+        <a href="/landing">
+          <h4 class="text-sky-400 text-xl md:text-lg font-extrabold mb-4 md:mb-6 leading-snug">
+            Wellcome To EcoFare!!!
+          </h4>
+        </a>
         <a href="/landing">
           <h2 class="text-3xl md:text-5xl font-extrabold mb-4 md:mb-6 leading-snug">
             Transform Waste into Fare with EcoFare
@@ -72,21 +77,14 @@
         </p>
         <Button
             href="/login"
-            class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 md:px-6 rounded-full text-sm md:text-lg 
+            class="bg-white border-2 border-blue-700 hover:bg-blue-700 text-black hover:text-white py-2 px-4 md:px-6 rounded-full text-sm md:text-lg 
             font-semibold shadow-lg hover:shadow-xl transition duration-300 ease-in-out"
-      >
+        >
             Get Started
         </Button>
       </div>
-          <!-- Image Container 
-           ---class="rounded-lg shadow-md" 
-           -->
     <div class="md:w-1/2 w-full flex justify-center">
-      <img
-        src="/image/clean.png"
-        alt="EcoFare Logo"
-
-      />
+      <img src="/image/clean.png" alt="EcoFare Logo"/>
     </div>
   </section>  
   </div>
@@ -99,14 +97,14 @@
         {#each features as feature}
           <div class="group relative bg-gradient-to-r from-blue-50 to-blue-100 p-8 rounded-xl shadow-md transition duration-300 ease-in-out hover:scale-105 flex flex-col justify-center items-center hover:from-blue-100 hover:to-blue-200">
             
-            <!-- Image on top -->
+            <!-- Image -->
             <img 
               src={feature.image} 
               alt={feature.title} 
               class="w-full h-auto md:h-64 lg:h-80 object-cover rounded-t-xl mb-4 transition-all duration-300 group-hover:opacity-80" 
             />
             
-            <!-- Title and description below the image -->
+            <!-- Title & Description -->
             <h4 class="text-xl md:text-2xl font-semibold text-blue-600 relative z-10 mb-4 group-hover:text-black transition-colors duration-300 text-center">
               {feature.title}
             </h4>
@@ -116,13 +114,12 @@
             </p>
             
             <!-- Learn More Button -->
-            <button
-              class="mt-6 px-6 py-3 text-base md:text-lg bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 
-              hover:text-white border border-blue-500 transition duration-300 relative z-10"
+            <Button
+              class="mt-6 px-6 py-3 text-base md:text-lg bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 hover:text-white border border-blue-500 transition duration-300 relative z-10"
               on:click={() => openModal(feature.id)}
             >
               Learn More
-            </button>
+            </Button>
           </div>
         {/each}
       </div>
@@ -131,49 +128,33 @@
 
   <!-- Modals -->
   {#each features as feature}
-  {#if activeModal === feature.id}
-    <div class="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
-      <!-- Modal Container -->
-      <div class="bg-white rounded-2xl p-8 w-11/12 max-w-lg shadow-lg transition-transform transform scale-100">
-        
-        <!-- Modal Header -->
-        <div class="flex justify-between items-center border-b pb-4 mb-6">
-          <h2 class="text-2xl font-bold text-blue-600">{feature.title}</h2>
-          <button 
-            class="text-gray-500 hover:text-gray-700 transition duration-200"
-            on:click={closeModal}
-            aria-label="Close"
+    {#if activeModal === feature.id}
+      <Dialog.Root open>
+        <Dialog.Portal>
+          <Dialog.Overlay class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center" />
+          
+          <Dialog.Content
+            class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-2xl p-8 w-11/12 max-w-lg max-h-[90vh] shadow-lg overflow-auto z-[100]"
           >
-            ✖
-          </button>
-        </div>
-        
-        <!-- Modal Content -->
-        <div>
-          <img 
-            src={feature.image} 
-            alt={feature.title} 
-            class="w-full h-48 object-cover rounded-xl mb-4 shadow-sm"
-          />
-          <p class="text-gray-700 leading-relaxed whitespace-pre-line mb-6">
-            {feature.modalContent}
-          </p>
-        </div>
-
-        <!-- Modal Footer -->
-        <div class="flex justify-end">
-          <button 
-            class="px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition duration-300"
-            on:click={closeModal}
-          >
-            Close
-          </button>
-        </div>
-      </div>
-    </div>
-  {/if}
-{/each}
-
+            <!-- Modal Header -->
+            <div class="flex justify-between items-center border-b pb-4 mb-6">
+              <h2 class="text-2xl font-bold text-blue-600">{feature.title}</h2>
+              <Dialog.Close asChild>
+              </Dialog.Close>
+            </div>
+            
+            <!-- Modal Content -->
+            <div>
+              <img src={feature.image} alt={feature.title} class="w-full h-48 object-cover rounded-xl mb-4 shadow-sm"/>
+              <p class="text-gray-700 leading-relaxed whitespace-pre-line mb-6">
+                {feature.modalContent}
+              </p>
+            </div>
+          </Dialog.Content>
+        </Dialog.Portal>
+      </Dialog.Root>
+    {/if}
+  {/each}
 
   <Footer />
 </main>
