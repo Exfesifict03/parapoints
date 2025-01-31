@@ -92,7 +92,7 @@
   <!-- Features Section -->
   <section id="features" class="py-10 bg-gray-50">
     <div class="w-full h-full p-5 bg-gray-200/40">
-      <h3 class="text-3xl md:text-4xl font-bold text-center text-blue-600 mb-12">EXPLOIT</h3>
+      <h3 class="text-3xl md:text-4xl font-bold text-center text-blue-600 mb-12">HOW TO EXPLOIT</h3>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         {#each features as feature}
           <div class="group relative bg-gradient-to-r from-blue-50 to-blue-100 p-8 rounded-xl shadow-md transition duration-300 ease-in-out hover:scale-105 flex flex-col justify-center items-center hover:from-blue-100 hover:to-blue-200">
