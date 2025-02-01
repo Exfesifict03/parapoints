@@ -1,4 +1,7 @@
-<script>
+<script lang="ts">
+  import Navbar from "$lib/components/ui/navbar/navbar.svelte";
+  import Footer from "$lib/components/ui/footer/footer.svelte";
+
     let user = {
       name: "John Doe",
       email: "johndoe@example.com",

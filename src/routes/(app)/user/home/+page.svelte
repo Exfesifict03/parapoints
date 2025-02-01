@@ -57,55 +57,53 @@
   });
 </script>
 
-<main class="min-h-screen bg-gradient-to-b from-gray-50 to-gray-200 mt-10">
-  <div class="container mx-auto px-6 py-16 space-y-12">
-    <!-- Header -->
+<main class="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 py-12 mt-10">
+  <div class="container mx-auto px-6 space-y-10">
     <section class="text-center">
-      <h1 class="text-4xl font-extrabold text-gray-800 sm:text-5xl">EcoPoints</h1>
+      <h1 class="text-5xl font-bold text-gray-800">EcoPoints</h1>
       <p class="text-gray-600 mt-3 text-lg">Manage your points and credits effortlessly</p>
     </section>
 
-    <!-- Points Display -->
-    <section class="flex flex-col items-center">
-      <div class="relative flex items-center justify-center w-44 h-44 sm:w-52 sm:h-52 bg-white shadow-lg rounded-full overflow-hidden">
+    <section class="flex justify-center">
+      <div class="relative flex items-center justify-center w-48 h-48 sm:w-56 sm:h-56 bg-white shadow-xl rounded-full overflow-hidden">
         <div class="absolute inset-0 rounded-full bg-gradient-to-tr from-green-400 to-green-600 blur-lg animate-pulse"></div>
         <div class="absolute inset-0 rounded-full border-4 border-green-500 animate-ripple"></div>
         <div class="relative z-10 text-center">
-          <p class="text-5xl font-bold text-green-600">{points.toFixed(2)}</p>
+          <p class="text-6xl font-bold text-green-600">{points.toFixed(2)}</p>
           <p class="text-sm text-gray-500">Available Points</p>
         </div>
       </div>
     </section>
 
-    <!-- Action Buttons -->
     <section class="flex flex-col sm:flex-row items-center justify-center gap-6">
       <a href="/user/redeem">
-        <Button class="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg shadow-md transition">
-          <QrCode class="w-5 h-5" /> Scan Ticket
+        <Button class="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-xl shadow-lg transition-transform transform hover:scale-105">
+          <QrCode class="w-6 h-6" /> Scan Ticket
         </Button>
       </a>
       <a href="/user/pay">
-        <Button class="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg shadow-md transition">
-          <Coins class="w-5 h-5" /> Pay Fare
+        <Button class="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl shadow-lg transition-transform transform hover:scale-105">
+          <Coins class="w-6 h-6" /> Pay Fare
         </Button>
       </a>
     </section>
 
-    <!-- Transaction History -->
-    <section class="bg-white shadow-lg rounded-lg p-6 w-full max-w-lg mx-auto">
-      <h3 class="text-xl font-semibold text-gray-800 text-center mb-4">Transaction History</h3>
-      <div class="grid grid-cols-2 gap-4 py-2 border-b border-gray-300">
-        <span class="text-gray-700 font-medium">Date</span>
-        <span class="text-gray-700 font-medium text-right">Points</span>
+    <section class="bg-white shadow-xl rounded-lg p-6 w-full max-w-lg mx-auto">
+      <h3 class="text-2xl font-semibold text-gray-800 text-center mb-4">Transaction History</h3>
+      <div class="bg-gray-100 rounded-lg p-4">
+        <div class="grid grid-cols-2 gap-4 py-3 border-b border-gray-300 font-semibold text-gray-700">
+          <span>Date</span>
+          <span class="text-right">Points</span>
+        </div>
+        <ul class="divide-y divide-gray-300 max-h-72 overflow-y-auto">
+          {#each transactionHistory as transaction}
+            <li class="flex justify-between items-center py-4 px-3 rounded-lg bg-white shadow-sm hover:bg-gray-100 transition">
+              <span class="text-gray-600">{transaction.date}</span>
+              <span class="text-green-600 font-semibold text-right">+{transaction.points} pts</span>
+            </li>
+          {/each}
+        </ul>
       </div>
-      <ul class="divide-y divide-gray-200">
-        {#each transactionHistory as transaction}
-          <li class="py-3 flex justify-between items-center">
-            <span class="text-gray-600">{transaction.date}</span>
-            <span class="text-green-600 font-semibold text-right">+{transaction.points} pts</span>
-          </li>
-        {/each}
-      </ul>
     </section>
   </div>
 </main>
