@@ -1,45 +1,99 @@
 <script lang="ts">
-  import Navbar from "$lib/components/ui/navbar/navbar.svelte";
-  import Footer from "$lib/components/ui/footer/footer.svelte";
+  import { onMount } from 'svelte';
 
-    let user = {
-      name: "John Doe",
-      email: "johndoe@example.com",
-      points: 250,
-      transactions: [
-        { date: "2025-01-28", amount: "+50" },
-        { date: "2025-01-27", amount: "+30" },
-        { date: "2025-01-26", amount: "+20" }
-      ]
-    };
-  </script>
-  
-  <div class="max-w-md mx-auto p-6 bg-blue-50 shadow-lg rounded-2xl mt-28 mb-10">
+  let user = {
+    firstname: "",
+    lastname: "",
+    email: "",
+    points: 0,
+    joinedDate: "",
+  };
+  let loading = true;
+  let errorMessage = "";
+
+  function formatDate(isoString: string): string {
+    if (!isoString) return "N/A"; // Handle missing date
+    const date = new Date(isoString);
+    return date.toLocaleDateString("en-US", {
+      weekday: "long", // e.g., Monday
+      year: "numeric", // e.g., 2023
+      month: "long", // e.g., August
+      day: "numeric" // e.g., 15
+    });
+  }
+
+  async function fetchUserData() {
+    loading = true;
+    errorMessage = "";
+
+    try {
+      const response = await fetch("/user");
+      const contentType = response.headers.get("content-type");
+
+      if (!response.ok) {
+        throw new Error(`Server error: ${response.status}`);
+      }
+
+      if (!contentType || !contentType.includes("application/json")) {
+        throw new Error("Invalid JSON response from server.");
+      }
+
+      const result = await response.json();
+      user = result.data;
+
+      // Format joinedDate
+      if (user.joinedDate) {
+        user.joinedDate = formatDate(user.joinedDate);
+      }
+    } catch (err: any) {
+      console.error("Fetch Error:", err);
+      errorMessage = err.message || "Something went wrong.";
+    } finally {
+      loading = false;
+    }
+  }
+
+  onMount(fetchUserData);
+</script>
+
+{#if loading}
+  <div class="flex justify-center items-center min-h-screen">
+    <div class="animate-spin rounded-full h-12 w-12 border-t-4 border-blue-600"></div>
+  </div>
+{:else}
+  <div class="max-w-md mx-auto p-6 bg-white shadow-xl rounded-2xl mt-24 mb-10 border border-gray-200">
     <div class="flex flex-col items-center">
-      <div class="w-24 h-24 bg-blue-300 rounded-full flex items-center justify-center text-2xl font-bold text-white">
-        {user.name[0]}
+      <!-- Profile Picture with Initials -->
+      <div class="w-24 h-24 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-3xl font-bold text-white shadow-lg">
+        {user.firstname[0]}{user.lastname[0]}
       </div>
-      <h2 class="text-xl font-semibold mt-3 text-blue-900">{user.name}</h2>
-      <p class="text-sm text-gray-600">{user.email}</p>
-      <div class="mt-4 bg-blue-200 text-blue-900 px-4 py-2 rounded-lg text-lg font-semibold">
+
+      <!-- User Details -->
+      <h2 class="text-2xl font-semibold mt-3 text-gray-800">{user.firstname} {user.lastname}</h2>
+      <p class="text-sm text-gray-500">{user.email}</p>
+
+      <!-- Points Section -->
+      <div class="mt-4 bg-blue-100 text-blue-900 px-5 py-2 rounded-lg text-lg font-semibold shadow">
         Points: {user.points}
       </div>
-    </div>
-  
-    <div class="mt-6">
-      <h3 class="text-lg font-semibold text-blue-900">Recent Transactions</h3>
-      <ul class="mt-2 space-y-2">
-        {#each user.transactions as txn}
-          <li class="flex justify-between bg-blue-100 p-2 rounded-lg text-blue-900">
-            <span>{txn.date}</span>
-            <span class="font-semibold">{txn.amount}</span>
-          </li>
-        {/each}
-      </ul>
-    </div>
-  
-    <div class="mt-6 text-center">
-      <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">Edit Profile</button>
+
+      <!-- Additional Info -->
+      <p class="mt-2 text-xs text-gray-400">Joined: {new Date(user.joinedDate).toLocaleDateString()}</p>
+
+      <!-- Error Message -->
+      {#if errorMessage}
+        <div class="mt-4 text-red-600 text-sm">{errorMessage}</div>
+      {/if}
+
+      <!-- Buttons Section -->
+      <div class="mt-6 flex gap-4">
+        <button class="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+          ✏️ Edit Profile
+        </button>
+        <button on:click={fetchUserData} class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 transition">
+          🔄 Refresh
+        </button>
+      </div>
     </div>
   </div>
-  
+{/if}

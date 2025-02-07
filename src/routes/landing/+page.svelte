@@ -1,8 +1,8 @@
 <script lang="ts">
   import Footer from "$lib/components/ui/footer/footer.svelte";
   import { Button } from "$lib/components/ui/button/index.js";
-  import Navbar from "$lib/components/ui/navbar/navbar.svelte";
   import * as Dialog from "$lib/components/ui/dialog/index.js";
+  import Navbar from "$lib/components/ui/navbar/navbar.svelte";
 
   let activeModal: number | null = null; // ✅ Fix: Changed from 'const' to 'let'
 
@@ -55,9 +55,9 @@
     }
   ];
 </script>
-
+<Navbar/> 
 <main class="mt-10 min-h-screen bg-gray-50 text-gray-800">
-  <Navbar />
+
   <div class="w-full h-full p-0 mt-16"> 
     <section class="flex flex-col md:flex-row min-h-[10vh] bg-cover bg-center bg-no-repeat text-gray-800 p-6 md:p-10 items-center 
     justify-between space-y-6 md:space-y-0" style="background-image: url('image/bgl.png');">

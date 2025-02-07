@@ -17,6 +17,7 @@ export const user = pgTable('user', {
 	userRole: userRole('role'),
 	passwordHash: text('password_hash').notNull(),
 	points: text('points').default('0'),
+	joinedDate: timestamp("joined_date").defaultNow(),
 });
 
 export const session = pgTable('session', {
