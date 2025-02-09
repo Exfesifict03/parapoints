@@ -6,8 +6,6 @@
     import { loginSchema } from '$lib/zod-schema';
     import { toast, Toaster } from 'svelte-sonner';
     import { Button } from '$lib/components/ui/button';
-    import Navbar from "$lib/components/ui/navbar/navbar.svelte";
-    import Footer from '$lib/components/ui/footer/footer.svelte';
   
     const form = superForm(defaults(zod(loginSchema)), {
           validators: zodClient(loginSchema),
@@ -17,7 +15,6 @@
                   toast.error('Invalid email or password.');
               } else if (result.type === 'success') {
                   toast.success('Login successfully!');
-                  window.location.href = '/user/home';
               }
           }
       });
@@ -25,7 +22,6 @@
     const { form: formData, enhance} = form;
   </script>
   
-  <Navbar />
   <main class="min-h-screen bg-gray-50 flex items-center justify-center">
     <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
         <Toaster />
@@ -70,4 +66,3 @@
         </p>
     </div>
   </main>
-  <Footer />

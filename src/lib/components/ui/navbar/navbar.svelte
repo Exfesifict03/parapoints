@@ -34,7 +34,7 @@
 </script>
 
 <header
-  class="bg-white text-gray-800 shadow-lg border-b-2 border-gray-100 fixed top-0 left-0 w-full transition-transform duration-300 ease-in-out"
+  class="bg-white text-gray-800 shadow-lg border-b-2 border-gray-100 fixed top-0 left-0 w-full transition-transform duration-300 ease-in-out z-10"
   style="transform: translateY({isNavbarVisible ? '0' : '-100%'})"
 >
   <div class="mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">

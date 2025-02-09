@@ -2,8 +2,6 @@
     import { writable } from 'svelte/store';
     import { toast, Toaster } from 'svelte-sonner';
     import { Button } from '$lib/components/ui/button';
-    import Navbar from '$lib/components/ui/navbar/navbar.svelte';
-    import Footer from '$lib/components/ui/footer/footer.svelte';
   
     const amount = writable('');
     const qrCodeUrl = writable('');
@@ -41,7 +39,6 @@
       }
     };
   </script>
-  <Navbar/>
   <Toaster />
   <div class="flex flex-col items-center justify-center min-h-screen bg-gray-200">
     <div class="max-w-lg w-full bg-white shadow-lg rounded-lg p-6">
@@ -79,4 +76,3 @@
       {/if}
     </div>
   </div>
-  <Footer/>

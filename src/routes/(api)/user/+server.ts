@@ -1,6 +1,6 @@
 import { json, redirect, type RequestHandler } from '@sveltejs/kit';
 import { db } from '$lib/server/db';
-import { user } from '$lib/server/db/schema'; // Ensure correct table reference
+import { user } from '$lib/server/db/schema'; 
 import { eq } from 'drizzle-orm';
 
 export const GET: RequestHandler = async ({ locals }) => {

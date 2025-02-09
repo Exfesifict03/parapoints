@@ -1,12 +1,10 @@
 <script lang="ts">
-    import Navbar from "$lib/components/ui/navbar/navbar.svelte";
     import * as Form from '$lib/components/ui/form';
     import { Input } from '$lib/components/ui/input';
     import { zod, zodClient } from 'sveltekit-superforms/adapters';
     import { defaults, superForm } from 'sveltekit-superforms';
     import { registerSchema } from '$lib/zod-schema';
     import { toast, Toaster } from 'svelte-sonner';
-    import Footer from '$lib/components/ui/footer/footer.svelte';
   
     const form = superForm(defaults(zod(registerSchema)), {
           validators: zodClient(registerSchema),
@@ -25,7 +23,6 @@
 
   </script>
   
-  <Navbar />
   <main class="min-h-screen bg-gray-50 flex items-center justify-center">
     <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
       <Toaster position="top-center"  />
@@ -117,4 +114,3 @@
       </p>
     </div>
   </main>
-  <Footer />

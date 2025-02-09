@@ -1,6 +1,6 @@
 import * as auth from '$lib/server/auth';
 import type { PageServerLoad, Actions } from './$types.js';
-import { fail } from '@sveltejs/kit';
+import { fail, redirect } from '@sveltejs/kit';
 import { setError, superValidate } from 'sveltekit-superforms';
 import { loginSchema } from '$lib/zod-schema';
 import { zod } from 'sveltekit-superforms/adapters';
@@ -8,16 +8,17 @@ import { verify } from '@node-rs/argon2';
 import { db } from '$lib/server/db';
 import { eq } from 'drizzle-orm';
 import { user } from '$lib/server/db/schema';
-import { redirect } from '@sveltejs/kit';
 
 export const load: PageServerLoad = async (event) => {
-    
-    if (event.url.pathname === '/login' && event.locals.user) {
+    // Ensure user is not redirected if they are already on their target page
+    if (event.locals.user) {
         const userRole = event.locals.user.userRole;
-        
-        if (userRole === 'admin' || userRole === 'superadmin') {
-            throw redirect(302, '/');
-        } else if (userRole === 'user') {
+
+        if (userRole === 'superadmin' && event.url.pathname !== '/superadmin/dashboard') {
+            throw redirect(302, '/superadmin/dashboard');
+        } else if (userRole === 'admin' && event.url.pathname !== '/admin/dashboard') {
+            throw redirect(302, '/admin/dashboard');
+        } else if (userRole === 'user' && event.url.pathname !== '/user/home') {
             throw redirect(302, '/user/home');
         }
     }
@@ -66,16 +67,21 @@ export const actions: Actions = {
                 return setError(form, 'password', 'Incorrect password');
             }
 
+            // Create session after successful login
             const sessionToken = auth.generateSessionToken();
             const session = await auth.createSession(sessionToken, userRecord.id);
             auth.setSessionTokenCookie(event, sessionToken, session.expiresAt);
 
-            if (userRecord.role === 'admin' || userRecord.role === 'superadmin') {
-                throw redirect(302, '/');
-            } else if (userRecord.role === 'user') {
-                throw redirect(302, '/user/home');
-            } else {
-                throw redirect(302, '/user/home');
+            // Redirect based on role
+            switch (userRecord.role) {
+                case 'superadmin':
+                    throw redirect(302, '/superadmin/dashboard');
+                case 'admin':
+                    throw redirect(302, '/admin/dashboard');
+                case 'user':
+                    throw redirect(302, '/user/home');
+                default:
+                    throw redirect(302, '/user/home'); // Default fallback
             }
 
         } catch (error) {

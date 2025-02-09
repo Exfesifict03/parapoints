@@ -72,10 +72,6 @@
       <h2 class="text-2xl font-semibold mt-3 text-gray-800">{user.firstname} {user.lastname}</h2>
       <p class="text-sm text-gray-500">{user.email}</p>
 
-      <!-- Points Section -->
-      <div class="mt-4 bg-blue-100 text-blue-900 px-5 py-2 rounded-lg text-lg font-semibold shadow">
-        Points: {user.points}
-      </div>
 
       <!-- Additional Info -->
       <p class="mt-2 text-xs text-gray-400">Joined: {new Date(user.joinedDate).toLocaleDateString()}</p>
@@ -89,9 +85,6 @@
       <div class="mt-6 flex gap-4">
         <button class="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
           ✏️ Edit Profile
-        </button>
-        <button on:click={fetchUserData} class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 transition">
-          🔄 Refresh
         </button>
       </div>
     </div>

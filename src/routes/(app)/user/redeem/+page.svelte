@@ -95,7 +95,7 @@
 	</script>
 	
 	<Toaster />
-	<div class="flex flex-col gap-4 mt-6 mb-5 px-4">
+	<div class="flex flex-col gap-4 mt-28 mb-5 px-4">
 	  <!-- Back Button -->
 	  <div class="flex justify-start">
 		<a href="/user/home">
