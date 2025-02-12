@@ -121,11 +121,11 @@
 			  </Collapsible.Trigger>
 			  <Collapsible.Content class="space-y-2 mt-2 pl-6">
 				<a href="/landmark/sub2" class="block text-sm rounded-md p-2 hover:bg-gray-50 text-gray-600 transition"> > Update Profile</a>
-				<form method="POST" action="/auth/logout">
-				  <button type="submit" class="flex w-full items-center gap-x-2 rounded-md bg-red-900 text-white p-3 text-sm font-medium hover:bg-red-600 transition">
-					<LogOut class="h-5 w-5" />
-					<span>Logout</span>
-				  </button>
+				<form action="/logout" method="POST">
+					<button type="submit" class="flex items-center w-full px-4 py-2 text-red-600 hover:bg-red-100 transition">
+						<LogOut class="mr-2 h-4 w-4" />
+						<span>Log out</span>
+					</button>
 				</form>
 			  </Collapsible.Content>
 			</Collapsible.Root>

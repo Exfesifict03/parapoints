@@ -54,3 +54,7 @@ DO $$ BEGIN
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
+
+alter table child_table
+add constraint fk_parent foreign key (parent_id) references parent_table (id)
+  on delete cascade;

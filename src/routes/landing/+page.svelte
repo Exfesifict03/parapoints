@@ -55,7 +55,6 @@
     }
   ];
 </script>
-<Navbar/> 
 <main class="mt-10 min-h-screen bg-gray-50 text-gray-800">
 
   <div class="w-full h-full p-0 mt-16"> 
@@ -155,6 +154,4 @@
       </Dialog.Root>
     {/if}
   {/each}
-
-  <Footer />
 </main>
