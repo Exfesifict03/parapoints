@@ -70,9 +70,6 @@
                         <p><strong>11. Contact Information</strong><br>For inquiries, email us at <a href="mailto:jericho.roque.platilla@apcas.ph.education" class="text-blue-500 hover:text-blue-700">jericho.roque.platilla@apcas.ph.education</a>.</p>
                     </Dialog.Description>
                 </Dialog.Header>
-                <Dialog.Footer>
-                    <Button class="bg-blue-800 hover:bg-blue-900 text-white px-4 py-2 rounded-lg mt-4">Close</Button>
-                </Dialog.Footer>
             </Dialog.Content>
         </Dialog.Root>
     </div>

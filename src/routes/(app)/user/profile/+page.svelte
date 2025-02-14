@@ -1,26 +1,18 @@
 <script lang="ts">
   import { onMount } from 'svelte';
+  import { Button } from '$lib/components/ui/button';
 
   let user = {
     firstname: "",
+    middlename: "",
     lastname: "",
     email: "",
     points: 0,
     joinedDate: "",
   };
+
   let loading = true;
   let errorMessage = "";
-
-  function formatDate(isoString: string): string {
-    if (!isoString) return "N/A"; // Handle missing date
-    const date = new Date(isoString);
-    return date.toLocaleDateString("en-US", {
-      weekday: "long", // e.g., Monday
-      year: "numeric", // e.g., 2023
-      month: "long", // e.g., August
-      day: "numeric" // e.g., 15
-    });
-  }
 
   async function fetchUserData() {
     loading = true;
@@ -28,28 +20,52 @@
 
     try {
       const response = await fetch("/user");
-      const contentType = response.headers.get("content-type");
-
-      if (!response.ok) {
-        throw new Error(`Server error: ${response.status}`);
-      }
-
-      if (!contentType || !contentType.includes("application/json")) {
-        throw new Error("Invalid JSON response from server.");
-      }
-
       const result = await response.json();
-      user = result.data;
 
-      // Format joinedDate
-      if (user.joinedDate) {
-        user.joinedDate = formatDate(user.joinedDate);
+      if (result.status !== "success") {
+        throw new Error(result.message || "Failed to fetch user data.");
       }
+
+      Object.assign(user, result.data);
+      user.joinedDate = new Date(user.joinedDate).toLocaleDateString("en-US", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+      });
+
     } catch (err: any) {
       console.error("Fetch Error:", err);
       errorMessage = err.message || "Something went wrong.";
     } finally {
       loading = false;
+    }
+  }
+
+  async function updateUserProfile() {
+    errorMessage = "";
+
+    try {
+      const response = await fetch("/user", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          firstname: user.firstname,
+          middlename: user.middlename,
+          lastname: user.lastname,
+          email: user.email
+        })
+      });
+
+      const result = await response.json();
+
+      if (result.status !== "success") {
+        throw new Error(result.message || "Failed to update profile.");
+      }
+
+    } catch (err: any) {
+      console.error("Update Error:", err);
+      errorMessage = err.message || "Something went wrong.";
     }
   }
 
@@ -69,24 +85,33 @@
       </div>
 
       <!-- User Details -->
-      <h2 class="text-2xl font-semibold mt-3 text-gray-800">{user.firstname} {user.lastname}</h2>
+      <h2 class="text-2xl font-semibold mt-3 text-gray-800">{user.firstname} {user.middlename} {user.lastname}</h2>
       <p class="text-sm text-gray-500">{user.email}</p>
-
-
-      <!-- Additional Info -->
-      <p class="mt-2 text-xs text-gray-400">Joined: {new Date(user.joinedDate).toLocaleDateString()}</p>
-
-      <!-- Error Message -->
-      {#if errorMessage}
-        <div class="mt-4 text-red-600 text-sm">{errorMessage}</div>
-      {/if}
-
-      <!-- Buttons Section -->
-      <div class="mt-6 flex gap-4">
-        <button class="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
-          ✏️ Edit Profile
-        </button>
-      </div>
+      <p class="mt-2 text-xs text-gray-400">Joined: {user.joinedDate}</p>
     </div>
+
+    <!-- svelte-ignore a11y_label_has_associated_control -->
+    <label class="block text-gray-700 text-sm font-bold mb-1 mt-5">First Name</label>
+    <input type="text" bind:value={user.firstname} class="w-full border px-3 py-2 rounded-lg mb-2" />
+
+    <!-- svelte-ignore a11y_label_has_associated_control -->
+    <label class="block text-gray-700 text-sm font-bold mb-1">Middle Name</label>
+    <input type="text" bind:value={user.middlename} class="w-full border px-3 py-2 rounded-lg mb-2" />
+
+    <!-- svelte-ignore a11y_label_has_associated_control -->
+    <label class="block text-gray-700 text-sm font-bold mb-1">Last Name</label>
+    <input type="text" bind:value={user.lastname} class="w-full border px-3 py-2 rounded-lg mb-2" />
+
+    <div class="flex justify-end mt-4">
+      <Button on:click={updateUserProfile} class="bg-white border-2 border-blue-700 hover:bg-blue-700 text-black hover:text-white py-2 px-4 md:px-6 rounded-full text-sm md:text-lg 
+      font-semibold shadow-lg hover:shadow-xl transition duration-300 ease-in-out">
+         Save Changes
+      </Button>
+    </div>
+
+    <!-- Error Message -->
+    {#if errorMessage}
+      <div class="mt-4 text-red-600 text-sm">{errorMessage}</div>
+    {/if}
   </div>
 {/if}
