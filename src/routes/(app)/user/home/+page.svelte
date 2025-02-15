@@ -81,7 +81,7 @@
           <QrCode class="w-6 h-6" /> Scan Ticket
         </Button>
       </a>
-      <a href="/user/pay">
+      <a href="/user/location">
         <Button class="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl shadow-lg transition-transform transform hover:scale-105">
           <Coins class="w-6 h-6" /> Pay Fare
         </Button>

@@ -2,7 +2,6 @@
   import Footer from "$lib/components/ui/footer/footer.svelte";
   import { Button } from "$lib/components/ui/button/index.js";
   import * as Dialog from "$lib/components/ui/dialog/index.js";
-  import Navbar from "$lib/components/ui/navbar/navbar.svelte";
 
   let activeModal: number | null = null; // ✅ Fix: Changed from 'const' to 'let'
 
@@ -77,8 +76,7 @@
         <Button
             href="/login"
             class="bg-white border-2 border-blue-700 hover:bg-blue-700 text-black hover:text-white py-2 px-4 md:px-6 rounded-full text-sm md:text-lg 
-            font-semibold shadow-lg hover:shadow-xl transition duration-300 ease-in-out"
-        >
+            font-semibold shadow-lg hover:shadow-xl transition duration-300 ease-in-out">
             Get Started
         </Button>
       </div>
@@ -91,7 +89,7 @@
   <!-- Features Section -->
   <section id="features" class="py-10 bg-gray-50">
     <div class="w-full h-full p-5 bg-gray-200/40">
-      <h3 class="text-3xl md:text-4xl font-bold text-center text-blue-600 mb-12">HOW TO EXPLOIT</h3>
+      <h3 class="text-3xl md:text-4xl font-bold text-center text-blue-600 mb-12">HOW TO USE</h3>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         {#each features as feature}
           <div class="group relative bg-gradient-to-r from-blue-50 to-blue-100 p-8 rounded-xl shadow-md transition duration-300 ease-in-out hover:scale-105 flex flex-col justify-center items-center hover:from-blue-100 hover:to-blue-200">

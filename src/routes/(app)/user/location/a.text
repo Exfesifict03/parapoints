@@ -56,7 +56,7 @@
 </script>
 
 <div class="p-6 md:p-10 max-w-lg mx-auto bg-gradient-to-br from-blue-100 to-white rounded-3xl shadow-lg space-y-6 mt-24 mb-12 font-sans">
-  <h2 class="text-xl md:text-2xl font-bold text-gray-800 flex items-center justify-center gap-3">
+  <h2 class="text-xl md:text-2xl font-bold text-gray-800 flex items-center gap-3">
     <span>🚏 Choose Your Destination</span>
   </h2>
   
@@ -108,14 +108,5 @@
         </li>
       {/each}
     </ul>
-  {/if}
-  {#if selectedDestination}
-    <div class="mt-4 p-4 md:p-6 bg-blue-50 rounded-2xl text-blue-900 shadow-md border border-blue-200">
-      <h3 class="font-semibold text-base md:text-lg">🎯 Selected Destination</h3>
-      <p class="text-md md:text-lg">🚆 {selectedDestination.name}</p>
-      <p class="text-sm md:text-base text-gray-700">Mode: <span class="font-medium">{selectedDestination.type}</span></p>
-      <p class="text-sm md:text-base text-gray-700">⏳ ETA: <span class="font-medium">{selectedDestination.eta}</span></p>
-      <p class="text-sm md:text-base text-gray-700">💰 Fare: <span class="font-medium">{selectedDestination.fare}</span></p>
-    </div>
   {/if}
 </div>
