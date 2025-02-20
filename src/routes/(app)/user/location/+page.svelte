@@ -45,7 +45,7 @@
 
   export const btn1Text = "Balanga";
   export const btn2Text = "Orani";
-  export const btn1Click = () => {
+  export const btn1Click = () => {  
     showDestinations = true;
     showDestinations2 = false;
   };
@@ -110,12 +110,20 @@
     </ul>
   {/if}
   {#if selectedDestination}
-    <div class="mt-4 p-4 md:p-6 bg-blue-50 rounded-2xl text-blue-900 shadow-md border border-blue-200">
+  {#if selectedDestination}
+  <div class="mt-4 p-4 md:p-6 bg-blue-50 rounded-2xl text-blue-900 shadow-md border border-blue-200 flex justify-between items-center">
+    <div>
       <h3 class="font-semibold text-base md:text-lg">🎯 Selected Destination</h3>
-      <p class="text-md md:text-lg">🚆 {selectedDestination.name}</p>
+      <p class="text-md md:text-lg">🚌 {selectedDestination.name}</p>
       <p class="text-sm md:text-base text-gray-700">Mode: <span class="font-medium">{selectedDestination.type}</span></p>
-      <p class="text-sm md:text-base text-gray-700">⏳ ETA: <span class="font-medium">{selectedDestination.eta}</span></p>
-      <p class="text-sm md:text-base text-gray-700">💰 Fare: <span class="font-medium">{selectedDestination.fare}</span></p>
+      <p class="text-sm md:text-base text-gray-700">⌚ ETA: <span class="font-medium">{selectedDestination.eta}</span></p>
+      <p class="text-sm md:text-base text-gray-700">💸 Fare: <span class="font-medium">{selectedDestination.fare}</span></p>
     </div>
-  {/if}
+    <a href="/user/pay" class="bg-white border-2 border-blue-700 hover:bg-blue-700 text-black hover:text-white py-2 px-4 md:px-6 rounded-full text-sm md:text-lg 
+    font-semibold shadow-lg hover:shadow-xl transition duration-300 ease-in-out">
+      PAY HERE!
+    </a>
+  </div>
+{/if}
+{/if}
 </div>

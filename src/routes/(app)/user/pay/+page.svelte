@@ -107,8 +107,9 @@
 		</a>
 	  </div>
 	  <div class="flex flex-col items-center gap-4">
-		<div class="text-xl font-bold md:text-2xl">Scan Drivers Qr Code</div>
+		<div class="text-xl font-bold md:text-2xl">Scan Qr Code to Pay</div>
 		<div class="flex w-full items-center justify-center rounded-lg border-2 border-dashed border-primary sm:w-[320px] md:w-[480px] lg:w-[640px]">
+		  <!-- svelte-ignore a11y_media_has_caption -->
 		  <video bind:this={videoElem} class="w-full rounded-lg" playsinline></video>
 		</div>
 	  </div>
