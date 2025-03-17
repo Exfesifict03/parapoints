@@ -3,13 +3,13 @@
   
     let data = [
       { title: 'Active Users', value: '0', icon: '3', color: 'yellow' },
-      { title: 'Products', value: '0', icon: '7', color: 'yellow' },
+      { title: 'Productsasdasds', value: '0', icon: '7', color: 'yellow' },
       { title: 'Stores', value: '0', icon: '1', color: 'blue' },
       { title: 'Store Owners', value: '0', icon: '2', color: 'green' },
       { title: 'Donations', value: '0', icon: '4', color: 'yellow' },
       { title: 'Completed Orders', value: '0', icon: '6', color: 'red' },
       { title: 'Completed Tours', value: '0', icon: '5', color: 'red' },
-      { title: 'Total Store Revenue', value: '0', icon: '8', color: 'red' },
+      { title: 'Total Store Revenue', value: '0', icon: '8', color: '' },
     ];
   </script>
   

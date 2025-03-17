@@ -78,12 +78,12 @@
 			  <Collapsible.Trigger asChild let:builder>
 				<Button builders={[builder]} variant="ghost" size="sm" class="w-full p-3 flex space-x-3 rounded-md hover:bg-gray-100 transition">
 				  <Landmark class="h-5 w-5 text-gray-600" />
-				  <span class="text-gray-700 text-start flex w-full">Stores</span>
+				  <span class="text-gray-700 text-start flex w-full">Manage User</span>
 				</Button>
 			  </Collapsible.Trigger>
 			  <Collapsible.Content class="space-y-2 mt-2 pl-6">
-				<a href="/admin/store/manage_store_owner" class="block text-sm rounded-md p-2 hover:bg-gray-50 text-gray-600 transition"> > Manage Owner</a>
-				<a href="/admin/store/manage_stores" class="block text-sm rounded-md p-2 hover:bg-gray-50 text-gray-600 transition"> > Manage Store</a>
+				<a href="/admin/manage" class="block text-sm rounded-md p-2 hover:bg-gray-50 text-gray-600 transition"> > Manage Passenger</a>
+				<a href="/admin/manage" class="block text-sm rounded-md p-2 hover:bg-gray-50 text-gray-600 transition"> > Manage Driver</a>
 			  </Collapsible.Content>
 			</Collapsible.Root>
 			<Collapsible.Root class="overflow-y-auto">

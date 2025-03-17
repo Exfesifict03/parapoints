@@ -1,15 +1,21 @@
 <script lang="ts">
-    import { fade } from 'svelte/transition'; 
+    import { page } from '$app/stores';
+    import { fade } from 'svelte/transition';
     import {
-    Button,
-    buttonVariants
+        Button,
+        buttonVariants
     } from "$lib/components/ui/button/index.js";
     import * as Dialog from "$lib/components/ui/dialog/index.js";
     import { Input } from "$lib/components/ui/input/index.js";
     import { Label } from "$lib/components/ui/label/index.js";
-    import { Mail, MapPin } from 'lucide-svelte'; 
+    import { Mail, MapPin } from 'lucide-svelte';
+
+    // Check if the current page is under the "admin" path
+    let hideFooter = false;
+    $: hideFooter = $page.url.pathname.startsWith('/admin');
 </script>
 
+{#if !hideFooter}
 <footer class="relative bg-blue-950 text-white py-12 px-8 md:px-16">
     <div class="absolute inset-0 z-0">
         <img src="/image/landing1.jpg" class="w-full h-full object-cover opacity-20" alt="Footer Background">
@@ -21,7 +27,7 @@
             <h3 class="font-semibold text-lg mb-2 text-cyan-300">About Us</h3>
             <p class="text-sm leading-relaxed text-gray-300">EcoFare is a web-based smart recycling system that turns waste into valuable points for fare and essentials.</p>
         </div>
-    
+
         <!-- Contact Us -->
         <div class="text-center md:text-left max-w-xs px-4 md:px-6">
             <h3 class="font-semibold text-lg mb-2 text-cyan-300">Contact Us</h3>
@@ -36,7 +42,7 @@
                 <span>228 National Rd, Balanga, Bataan</span>
             </div>
         </div>
-    
+
         <!-- Partnership -->
         <div class="text-center md:text-left flex flex-col items-center md:items-start max-w-md px-4 md:px-6">
             <h3 class="font-semibold text-lg mb-2 text-cyan-300">Partnership</h3>
@@ -82,3 +88,4 @@
         </p>
     </div>
 </footer>
+{/if}
