@@ -15,9 +15,9 @@
 	let users: User[] = [];
 	let loading: boolean = true;
 	let error: string = "";
+	let searchQuery: string = "";
 	let currentPage: number = 1;
-	let usersPerPage: number = 10; // Show 10 users per page
-	let searchQuery: string = ""; // Search input
+	const pageSize: number = 10;
 
 	// Fetch users from Supabase (excluding admins)
 	async function fetchUsers() {
@@ -38,39 +38,28 @@
 
 	// Filter users based on search query
 	function filteredUsers() {
-		if (!searchQuery.trim()) return users; // If search is empty, return all users
-		const lowerQuery = searchQuery.toLowerCase();
-
 		return users.filter(user =>
-			user.firstname.toLowerCase().includes(lowerQuery) ||
-			user.lastname.toLowerCase().includes(lowerQuery) ||
-			user.email.toLowerCase().includes(lowerQuery)
+			[user.firstname, user.lastname, user.email]
+				.some(field => field.toLowerCase().includes(searchQuery.toLowerCase()))
 		);
 	}
 
-	// Get paginated users after filtering
+	// Pagination logic
 	function paginatedUsers() {
-		const filtered = filteredUsers();
-		const start = (currentPage - 1) * usersPerPage;
-		const end = start + usersPerPage;
-		return filtered.slice(start, end);
+		const start = (currentPage - 1) * pageSize;
+		return filteredUsers().slice(start, start + pageSize);
 	}
 
-	// Total number of pages (based on search results)
-	function totalPages() {
-		return Math.ceil(filteredUsers().length / usersPerPage);
-	}
-
-	// Change page
-	function changePage(page: number) {
-		if (page > 0 && page <= totalPages()) {
-			currentPage = page;
+	function nextPage() {
+		if (currentPage < Math.ceil(filteredUsers().length / pageSize)) {
+			currentPage++;
 		}
 	}
 
-	// Reset to first page when searching
-	$: if (searchQuery) {
-		currentPage = 1;
+	function prevPage() {
+		if (currentPage > 1) {
+			currentPage--;
+		}
 	}
 
 	onMount(fetchUsers);
@@ -78,15 +67,12 @@
 
 <div class="p-6">
 	<h1 class="text-2xl font-bold mb-4">User Management</h1>
-
-	<!-- Search Input -->
 	<input 
 		type="text" 
 		bind:value={searchQuery} 
-		placeholder="Search by name or email..." 
-		class="border p-2 rounded w-full mb-4"
+		placeholder="Search user..." 
+		class="p-2 border rounded w-full mb-4"
 	/>
-
 	{#if loading}
 		<p>Loading users...</p>
 	{:else if error}
@@ -96,12 +82,13 @@
 			<table class="w-full border-collapse border border-gray-300 min-w-[900px]">
 				<thead class="bg-gray-200 text-gray-700 sticky top-0">
 					<tr>
-						<th class="border p-3 text-left">ID</th>
-						<th class="border p-3 text-left">First Name</th>
-						<th class="border p-3 text-left">Middle Name</th>
-						<th class="border p-3 text-left">Last Name</th>
-						<th class="border p-3 text-left">Email</th>
-						<th class="border p-3 text-left">Points</th>
+						<th class="border p-3">ID</th>
+						<th class="border p-3">First Name</th>
+						<th class="border p-3">Middle Name</th>
+						<th class="border p-3">Last Name</th>
+						<th class="border p-3">Email</th>
+						<th class="border p-3">Points</th>
+						<th class="border p-3">Column</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -113,33 +100,17 @@
 							<td class="p-3 border truncate max-w-[120px]">{user.lastname}</td>
 							<td class="p-3 border truncate max-w-[180px]">{user.email}</td>
 							<td class="p-3 border text-center font-semibold">{user.points}</td>
+							<td class="p-3 border text-center font-semibold">N/A</td>
 						</tr>
 					{/each}
 				</tbody>
 			</table>
 		</div>
-
-		<!-- Pagination Controls -->
-		<div class="flex justify-center items-center space-x-2 mt-4">
-			<button 
-				class="px-3 py-1 border rounded bg-gray-200 hover:bg-gray-300 disabled:opacity-50"
-				on:click={() => changePage(currentPage - 1)}
-				disabled={currentPage === 1}
-			>
-				Previous
-			</button>
-
-			<span class="px-4">Page {currentPage} of {totalPages()}</span>
-
-			<button 
-				class="px-3 py-1 border rounded bg-gray-200 hover:bg-gray-300 disabled:opacity-50"
-				on:click={() => changePage(currentPage + 1)}
-				disabled={currentPage === totalPages()}
-			>
-				Next
-			</button>
+		<div class="flex justify-between items-center mt-4">
+			<button on:click={prevPage} class="px-4 py-2 bg-gray-300 rounded" disabled={currentPage === 1}>Previous</button>
+			<span>Page {currentPage} of {Math.ceil(filteredUsers().length / pageSize)}</span>
+			<button on:click={nextPage} class="px-4 py-2 bg-gray-300 rounded" disabled={currentPage >= Math.ceil(filteredUsers().length / pageSize)}>Next</button>
 		</div>
 	{/if}
-
 	<UserActivityLogs />
 </div>

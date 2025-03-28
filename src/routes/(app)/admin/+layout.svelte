@@ -74,43 +74,12 @@
 			</li>
   
 			<!-- Collapsible Stores Section -->
-			<Collapsible.Root class="overflow-y-auto">
-			  <Collapsible.Trigger asChild let:builder>
-				<Button builders={[builder]} variant="ghost" size="sm" class="w-full p-3 flex space-x-3 rounded-md hover:bg-gray-100 transition">
+			<a href="/admin/manage">
+				<Button variant="ghost" size="sm" class="w-full p-3 flex space-x-3 rounded-md hover:bg-gray-100 transition">
 				  <Landmark class="h-5 w-5 text-gray-600" />
-				  <span class="text-gray-700 text-start flex w-full">Manage User</span>
+				  <span class="text-gray-700 text-start flex w-full">Monitor User</span>
 				</Button>
-			  </Collapsible.Trigger>
-			  <Collapsible.Content class="space-y-2 mt-2 pl-6">
-				<a href="/admin/manage" class="block text-sm rounded-md p-2 hover:bg-gray-50 text-gray-600 transition"> > Manage Passenger</a>
-				<a href="/admin/manage" class="block text-sm rounded-md p-2 hover:bg-gray-50 text-gray-600 transition"> > Manage Driver</a>
-			  </Collapsible.Content>
-			</Collapsible.Root>
-			<Collapsible.Root class="overflow-y-auto">
-				<Collapsible.Trigger asChild let:builder>
-				  <Button builders={[builder]} variant="ghost" size="sm" class="w-full p-3 flex space-x-3 rounded-md hover:bg-gray-100 transition">
-					<PhilippinePeso class="h-5 w-5 text-gray-600" />
-					<span class="text-gray-700 text-start flex w-full">Donation</span>
-				  </Button>
-				</Collapsible.Trigger>
-				<Collapsible.Content class="space-y-2 mt-2 pl-6">
-				  <a href="/admin/donation/history" class="block text-sm rounded-md p-2 hover:bg-gray-50 text-gray-600 transition"> > History</a>
-				</Collapsible.Content>
-			  </Collapsible.Root>
-			<Collapsible.Root class="overflow-y-auto">
-			  <Collapsible.Trigger asChild let:builder>
-				<Button builders={[builder]} variant="ghost" size="sm" class="w-full p-3 flex space-x-3 rounded-md hover:bg-gray-100 transition">
-				  <MapPin class="h-5 w-5 text-gray-600" />
-				  <span class="text-gray-700 text-start flex w-full">Tours</span>
-				</Button>
-			  </Collapsible.Trigger>
-			  <Collapsible.Content class="space-y-2 mt-2 pl-6">
-				<a href="/admin/tour/tour_packages" class="block text-sm rounded-md p-2 hover:bg-gray-50 text-gray-600 transition"> > Manage Tour Package</a>
-				<a href="/admin/tour/manage_tour" class="block text-sm rounded-md p-2 hover:bg-gray-50 text-gray-600 transition"> > Manage Tours</a>
-				<a href="/admin/tour/scanner" class="block text-sm rounded-md p-2 hover:bg-gray-50 text-gray-600 transition"> > Scanner</a>
-				<a href="/admin/tour/history" class="block text-sm rounded-md p-2 hover:bg-gray-50 text-gray-600 transition"> > Tour History</a>
-			  </Collapsible.Content>
-			</Collapsible.Root>
+			  </a>			  
 			<!-- Collapsible Settings Section -->
 			<Collapsible.Root class="overflow-y-auto">
 			  <Collapsible.Trigger asChild let:builder>
@@ -120,7 +89,6 @@
 				</Button>
 			  </Collapsible.Trigger>
 			  <Collapsible.Content class="space-y-2 mt-2 pl-6">
-				<a href="/landmark/sub2" class="block text-sm rounded-md p-2 hover:bg-gray-50 text-gray-600 transition"> > Update Profile</a>
 				<form action="/logout" method="POST">
 					<button type="submit" class="flex items-center w-full px-4 py-2 text-red-600 hover:bg-red-100 transition">
 						<LogOut class="mr-2 h-4 w-4" />

@@ -42,7 +42,7 @@
     <a href="/landing" class="flex items-center space-x-2">
       <img src="/image/logo.png" alt="EcoFare Logo" class="w-10 h-10 rounded-full" />
       <span class="text-2xl font-bold text-sky-400 font-sans transition duration-300">
-        ECOFARE
+        EcoFare
       </span>  
     </a>
 

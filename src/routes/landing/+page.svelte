@@ -62,7 +62,7 @@
       <div class="md:w-1/2 w-full text-center md:text-left px-4 md:px-6">
         <a href="/landing">
           <h4 class="text-sky-400 text-xl md:text-lg font-extrabold mb-4 md:mb-6 leading-snug">
-            Wellcome To EcoFare!!!
+            Welcome To EcoFare!!!
           </h4>
         </a>
         <a href="/landing">
