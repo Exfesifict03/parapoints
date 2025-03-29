@@ -5,6 +5,18 @@ EXCEPTION
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
+ CREATE TYPE "public"."transaction_status" AS ENUM('pending', 'completed', 'failed');
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ CREATE TYPE "public"."transaction_type" AS ENUM('fare_payment', 'points_transfer', 'cash_payout');
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
  CREATE TYPE "public"."user_role" AS ENUM('admin', 'user', 'superadmin');
 EXCEPTION
  WHEN duplicate_object THEN null;
@@ -25,10 +37,26 @@ CREATE TABLE IF NOT EXISTS "points" (
 	"created_at" timestamp with time zone NOT NULL
 );
 --> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "redeem" (
+	"id" text PRIMARY KEY NOT NULL,
+	"points" integer NOT NULL,
+	"status" "status" NOT NULL
+);
+--> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "session" (
 	"id" text PRIMARY KEY NOT NULL,
 	"user_id" text NOT NULL,
 	"expires_at" timestamp with time zone NOT NULL
+);
+--> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "transactions" (
+	"id" text PRIMARY KEY NOT NULL,
+	"sender_id" text,
+	"receiver_id" text,
+	"amount" integer NOT NULL,
+	"type" "transaction_type" NOT NULL,
+	"status" "transaction_status" NOT NULL,
+	"created_at" timestamp DEFAULT now()
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "user" (
@@ -40,6 +68,7 @@ CREATE TABLE IF NOT EXISTS "user" (
 	"role" "user_role",
 	"password_hash" text NOT NULL,
 	"points" text DEFAULT '0',
+	"joined_date" timestamp DEFAULT now(),
 	CONSTRAINT "user_email_unique" UNIQUE("email")
 );
 --> statement-breakpoint
@@ -54,8 +83,15 @@ DO $$ BEGIN
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
-
-alter table child_table
-add constraint fk_parent foreign key (parent_id) references parent_table (id)
-  on delete cascade;
-
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "transactions" ADD CONSTRAINT "transactions_sender_id_user_id_fk" FOREIGN KEY ("sender_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "transactions" ADD CONSTRAINT "transactions_receiver_id_user_id_fk" FOREIGN KEY ("receiver_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
