@@ -34,6 +34,9 @@ export const POST: RequestHandler = async ({ request, locals }) => {
       return json({ message: 'QR code does not contain valid data', status: 'error' }, { status: 400 });
     }
 
+    // Convert points to an integer
+    const roundedPoints = Math.round(points); // Round float points
+
     // Check if the QR code already exists in redeem table
     const [pointRecord] = await db
       .select({ id: redeem.id, points: redeem.points, status: redeem.status })
@@ -43,10 +46,10 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 
     // If it doesn't exist, insert a new record
     if (!pointRecord) {
-      console.log("Inserting new QR code into redeem table:", { uuid, points });
+      console.log("Inserting new QR code into redeem table:", { uuid, points: roundedPoints });
 
       await db.insert(redeem)
-        .values({ id: uuid.trim(), points, status: 'scanned' })
+        .values({ id: uuid.trim(), points: roundedPoints, status: 'scanned' })
         .onConflictDoNothing(); // Prevents duplicate entry errors
     }
 
@@ -68,7 +71,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 
     // Convert user points to number and add QR code points
     const userCurrentPoints = Number(userRecord.points) || 0;
-    const updatedPoints = userCurrentPoints + points;
+    const updatedPoints = userCurrentPoints + roundedPoints;
 
     // Update user points in the database
     await db.update(user)
