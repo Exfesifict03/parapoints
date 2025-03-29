@@ -56,9 +56,10 @@ export const POST: RequestHandler = async ({ request, locals }) => {
       return json({ message: 'User not found for the current session', status: 'error' }, { status: 404 });
     }
 
-    const updatedPoints = parseInt(userRecord.points ?? '0') + points;
+    // Fix: Ensure points are treated as numbers
+    const updatedPoints = (userRecord.points ?? 0) + points;
 
-    await db.update(user).set({ points: updatedPoints.toString() }).where(eq(user.id, userRecord.id));
+    await db.update(user).set({ points: updatedPoints }).where(eq(user.id, userRecord.id));
 
     const [updatedPoint] = await db
       .update(redeem)
